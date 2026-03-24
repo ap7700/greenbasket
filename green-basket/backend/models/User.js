@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema({
   phone: { type: String },
   address: { type: String },
   isAvailable: { type: Boolean, default: true }, // for delivery boys
+  isBanned: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now }
 });
 

@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Green Basket — Farm Fresh, Delivered</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #2d6a4f;
+  --green-light: #52b788;
+  --green-pale: #d8f3dc;
+  --green-mid: #40916c;
+  --orange: #e76f51;
+  --orange-light: #f4a261;
+  --cream: #fefae0;
+  --cream-dark: #f4ede0;
+  --text: #1b1b1b;
+  --text-muted: #6b7280;
+  --white: #ffffff;
+  --shadow: 0 4px 24px rgba(0,0,0,0.08);
+  --shadow-lg: 0 12px 48px rgba(0,0,0,0.12);
+  --radius: 16px;
+  --radius-sm: 8px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--cream); min-height: 100vh; }
+h1,h2,h3,h4 { font-family: 'Playfair Display', serif; }
+
+/* NAV */
+nav {
+  background: var(--white);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  position: sticky; top: 0; z-index: 100;
+}
+.logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--green); font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+.logo span { font-size: 1.8rem; }
+.nav-links { display: flex; gap: 1rem; align-items: center; }
+.nav-links a, .nav-links button { background: none; border: none; font-family: inherit; font-size: 0.9rem; color: var(--text-muted); cursor: pointer; padding: 6px 12px; border-radius: 8px; transition: all 0.2s; text-decoration: none; }
+.nav-links a:hover, .nav-links button:hover { background: var(--green-pale); color: var(--green); }
+.btn-nav { background: var(--green) !important; color: white !important; font-weight: 500; }
+.btn-nav:hover { background: var(--green-mid) !important; }
+.cart-btn { position: relative; }
+.cart-count { position: absolute; top: -4px; right: -4px; background: var(--orange); color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 0.65rem; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+
+/* PAGES */
+.page { display: none; }
+.page.active { display: block; }
+
+/* HOME */
+.hero {
+  background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 60%, var(--green-light) 100%);
+  color: white;
+  padding: 5rem 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 1rem; position: relative; }
+.hero p { font-size: 1.15rem; margin-bottom: 2rem; opacity: 0.9; max-width: 550px; margin-left: auto; margin-right: auto; position: relative; }
+.hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; position: relative; }
+.btn { padding: 12px 28px; border-radius: 50px; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 600; transition: all 0.25s; display: inline-flex; align-items: center; gap: 8px; }
+.btn-primary { background: var(--orange); color: white; box-shadow: 0 4px 20px rgba(231,111,81,0.4); }
+.btn-primary:hover { background: var(--orange-light); transform: translateY(-2px); }
+.btn-outline { background: transparent; border: 2px solid rgba(255,255,255,0.6); color: white; }
+.btn-outline:hover { background: rgba(255,255,255,0.15); }
+.btn-green { background: var(--green); color: white; }
+.btn-green:hover { background: var(--green-mid); transform: translateY(-2px); }
+.btn-red { background: #ef4444; color: white; }
+.btn-red:hover { background: #dc2626; }
+.btn-sm { padding: 8px 16px; font-size: 0.85rem; }
+
+.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; padding: 4rem 2rem; max-width: 1100px; margin: 0 auto; }
+.feature-card { background: white; border-radius: var(--radius); padding: 2rem; text-align: center; box-shadow: var(--shadow); transition: transform 0.2s; }
+.feature-card:hover { transform: translateY(-4px); }
+.feature-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.feature-card h3 { color: var(--green); margin-bottom: 0.5rem; }
+.feature-card p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
+
+/* PRODUCTS */
+.section-header { padding: 2rem; max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: gap; }
+.section-header h2 { font-size: 2rem; color: var(--green); }
+.filters { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.filter-btn { padding: 6px 16px; border-radius: 50px; border: 2px solid var(--green-pale); background: transparent; cursor: pointer; font-size: 0.85rem; font-family: inherit; color: var(--text-muted); transition: all 0.2s; }
+.filter-btn.active, .filter-btn:hover { background: var(--green); color: white; border-color: var(--green); }
+
+.products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; padding: 0 2rem 3rem; max-width: 1100px; margin: 0 auto; }
+.product-card { background: white; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); transition: all 0.25s; cursor: pointer; }
+.product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.product-img { width: 100%; height: 180px; object-fit: cover; background: var(--green-pale); display: flex; align-items: center; justify-content: center; font-size: 4rem; }
+.product-info { padding: 1.25rem; }
+.product-category { font-size: 0.75rem; color: var(--green); background: var(--green-pale); padding: 3px 10px; border-radius: 50px; display: inline-block; margin-bottom: 0.5rem; font-weight: 500; }
+.product-name { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.25rem; }
+.product-farmer { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.75rem; }
+.product-footer { display: flex; justify-content: space-between; align-items: center; }
+.product-price { font-size: 1.2rem; font-weight: 700; color: var(--green); }
+.product-price span { font-size: 0.8rem; color: var(--text-muted); font-weight: 400; }
+.add-cart-btn { background: var(--green); color: white; border: none; border-radius: 8px; padding: 8px 14px; cursor: pointer; font-size: 0.85rem; font-family: inherit; font-weight: 600; transition: all 0.2s; }
+.add-cart-btn:hover { background: var(--green-mid); }
+
+/* SEARCH */
+.search-bar { max-width: 1100px; margin: 1.5rem auto 0; padding: 0 2rem; }
+.search-input { width: 100%; padding: 12px 20px; border: 2px solid var(--green-pale); border-radius: 50px; font-size: 1rem; font-family: inherit; outline: none; transition: border-color 0.2s; }
+.search-input:focus { border-color: var(--green); }
+
+/* CART */
+.cart-container { max-width: 900px; margin: 2rem auto; padding: 0 2rem; }
+.cart-item { background: white; border-radius: var(--radius); padding: 1.25rem; display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; box-shadow: var(--shadow); }
+.cart-item-emoji { font-size: 2.5rem; min-width: 60px; text-align: center; }
+.cart-item-info { flex: 1; }
+.cart-item-name { font-weight: 600; font-size: 1rem; margin-bottom: 0.25rem; }
+.cart-item-meta { font-size: 0.85rem; color: var(--text-muted); }
+.qty-controls { display: flex; align-items: center; gap: 8px; }
+.qty-btn { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--green); background: white; color: var(--green); font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 700; transition: all 0.2s; }
+.qty-btn:hover { background: var(--green); color: white; }
+.qty-display { font-weight: 700; min-width: 24px; text-align: center; }
+.cart-item-price { font-size: 1.1rem; font-weight: 700; color: var(--green); min-width: 80px; text-align: right; }
+.remove-btn { background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem; padding: 4px; border-radius: 6px; transition: background 0.2s; }
+.remove-btn:hover { background: #fee2e2; }
+
+.cart-summary { background: white; border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); margin-top: 1.5rem; }
+.cart-summary h3 { font-size: 1.3rem; margin-bottom: 1rem; color: var(--green); }
+.summary-row { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px dashed var(--green-pale); font-size: 0.95rem; }
+.summary-row.total { font-weight: 700; font-size: 1.1rem; color: var(--green); border-bottom: none; margin-top: 0.5rem; }
+
+/* AUTH */
+.auth-container { max-width: 480px; margin: 3rem auto; padding: 0 2rem; }
+.auth-card { background: white; border-radius: var(--radius); padding: 2.5rem; box-shadow: var(--shadow-lg); }
+.auth-card h2 { text-align: center; color: var(--green); margin-bottom: 0.5rem; }
+.auth-subtitle { text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem; }
+.form-group { margin-bottom: 1.25rem; }
+.form-group label { display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 0.5rem; color: var(--text); }
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%; padding: 12px 16px; border: 2px solid #e5e7eb; border-radius: var(--radius-sm);
+  font-family: inherit; font-size: 0.95rem; outline: none; transition: border-color 0.2s; background: #fafafa;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--green); background: white; }
+.form-group textarea { resize: vertical; min-height: 80px; }
+.auth-footer { text-align: center; margin-top: 1.25rem; font-size: 0.9rem; color: var(--text-muted); }
+.auth-footer a { color: var(--green); cursor: pointer; font-weight: 500; text-decoration: none; }
+.role-selector { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; margin-bottom: 1.25rem; }
+.role-option { border: 2px solid #e5e7eb; border-radius: var(--radius-sm); padding: 0.75rem; text-align: center; cursor: pointer; transition: all 0.2s; }
+.role-option.selected { border-color: var(--green); background: var(--green-pale); }
+.role-option .role-icon { font-size: 1.5rem; display: block; margin-bottom: 0.25rem; }
+.role-option span:last-child { font-size: 0.8rem; font-weight: 500; }
+
+/* CHECKOUT */
+.checkout-container { max-width: 800px; margin: 2rem auto; padding: 0 2rem; display: grid; grid-template-columns: 1fr 380px; gap: 1.5rem; }
+@media (max-width: 768px) { .checkout-container { grid-template-columns: 1fr; } }
+.checkout-form-card, .order-summary-card { background: white; border-radius: var(--radius); padding: 1.75rem; box-shadow: var(--shadow); }
+.checkout-form-card h3, .order-summary-card h3 { font-size: 1.2rem; color: var(--green); margin-bottom: 1.25rem; }
+.cod-badge { background: var(--green-pale); color: var(--green); padding: 10px 16px; border-radius: var(--radius-sm); font-size: 0.9rem; font-weight: 500; display: flex; align-items: center; gap: 8px; margin-bottom: 1.25rem; }
+
+/* DASHBOARD */
+.dashboard { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+.dashboard-header { margin-bottom: 2rem; }
+.dashboard-header h2 { font-size: 2rem; color: var(--green); margin-bottom: 0.25rem; }
+.dashboard-header p { color: var(--text-muted); }
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+.stat-card { background: white; border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); text-align: center; }
+.stat-value { font-size: 2rem; font-weight: 700; color: var(--green); font-family: 'Playfair Display', serif; }
+.stat-label { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem; }
+.section-card { background: white; border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); margin-bottom: 1.5rem; }
+.section-card h3 { font-size: 1.2rem; color: var(--green); margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: center; }
+
+/* TABLES */
+table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+th { background: var(--green-pale); color: var(--green); padding: 10px 12px; text-align: left; font-weight: 600; }
+td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; }
+tr:hover td { background: #fafafa; }
+
+/* STATUS BADGES */
+.status { padding: 4px 12px; border-radius: 50px; font-size: 0.78rem; font-weight: 600; display: inline-block; }
+.status-pending { background: #fef3c7; color: #92400e; }
+.status-assigned { background: #dbeafe; color: #1e40af; }
+.status-out { background: #ede9fe; color: #5b21b6; }
+.status-delivered { background: var(--green-pale); color: var(--green); }
+.status-cancelled { background: #fee2e2; color: #991b1b; }
+.status-completed { background: var(--green-pale); color: var(--green); }
+
+/* PRODUCT FORM */
+.product-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media (max-width: 600px) { .product-form-grid { grid-template-columns: 1fr; } }
+
+/* TOASTS */
+#toast-container { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999; display: flex; flex-direction: column; gap: 0.75rem; }
+.toast { background: var(--green); color: white; padding: 12px 20px; border-radius: 10px; font-size: 0.9rem; font-weight: 500; min-width: 260px; box-shadow: var(--shadow-lg); animation: slideIn 0.3s ease; display: flex; align-items: center; gap: 10px; }
+.toast.error { background: #ef4444; }
+.toast.warning { background: var(--orange); }
+@keyframes slideIn { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+/* MODALS */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 500; display: none; align-items: center; justify-content: center; padding: 1rem; }
+.modal-overlay.open { display: flex; }
+.modal { background: white; border-radius: var(--radius); padding: 2rem; max-width: 560px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-lg); }
+.modal h3 { font-size: 1.4rem; color: var(--green); margin-bottom: 1.25rem; }
+.modal-close { float: right; background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--text-muted); }
+
+/* EMPTY STATES */
+.empty-state { text-align: center; padding: 3rem 1rem; }
+.empty-state .emoji { font-size: 3rem; margin-bottom: 1rem; }
+.empty-state h3 { color: var(--text-muted); font-size: 1.2rem; }
+.empty-state p { color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem; }
+
+/* LOADER */
+.loader { text-align: center; padding: 3rem; color: var(--text-muted); font-size: 1rem; }
+
+/* ORDER CARD (delivery/customer view) */
+.order-card { background: white; border-radius: var(--radius); padding: 1.25rem; box-shadow: var(--shadow); margin-bottom: 1rem; }
+.order-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem; }
+.order-id { font-family: 'DM Sans', sans-serif; font-size: 0.85rem; color: var(--text-muted); }
+.order-items { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.75rem; }
+.order-meta { display: flex; gap: 1.5rem; font-size: 0.85rem; flex-wrap: wrap; }
+.order-meta span { display: flex; align-items: center; gap: 5px; color: var(--text-muted); }
+.order-actions { margin-top: 1rem; display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+/* RESPONSIVE */
+@media (max-width: 640px) {
+  nav { padding: 0 1rem; }
+  .nav-links { gap: 0.25rem; }
+  .nav-links a span.label { display: none; }
+  .hero { padding: 3rem 1rem; }
+  .products-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; padding: 0 1rem 2rem; }
+  .product-img { height: 130px; font-size: 3rem; }
+}
+
+.text-center { text-align: center; }
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.fw-bold { font-weight: 700; }
+.text-green { color: var(--green); }
+.flex { display: flex; }
+.gap-1 { gap: 0.5rem; }
+.items-center { align-items: center; }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="logo" onclick="showPage('home')"><span>🌿</span> Green Basket</div>
+  <div class="nav-links" id="navLinks">
+    <a onclick="showPage('products')">🛍️ <span class="label">Shop</span></a>
+    <a onclick="showPage('auth')" id="loginBtn">Login</a>
+    <button class="btn-nav" onclick="showPage('auth')" id="registerBtn">Register</button>
+  </div>
+</nav>
+
+<!-- TOAST CONTAINER -->
+<div id="toast-container"></div>
+
+<!-- ===================== HOME PAGE ===================== -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <h1>🌱 Farm Fresh,<br>Delivered to Your Door</h1>
+    <p>Buy directly from local farmers. Fresh produce, fair prices, and lightning-fast delivery.</p>
+    <div class="hero-btns">
+      <button class="btn btn-primary" onclick="showPage('products')">🛍️ Shop Now</button>
+      <button class="btn btn-outline" onclick="showPage('auth')">🌾 Join as Farmer</button>
+    </div>
+  </div>
+  <div class="features">
+    <div class="feature-card">
+      <div class="feature-icon">🌾</div>
+      <h3>Direct from Farms</h3>
+      <p>No middlemen. Buy directly from verified local farmers for the freshest produce.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🚚</div>
+      <h3>Fast Delivery</h3>
+      <p>Our delivery partners ensure your fresh produce reaches you the same day.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💰</div>
+      <h3>Cash on Delivery</h3>
+      <p>Pay only when you receive your order. No online payment required.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🌿</div>
+      <h3>100% Organic</h3>
+      <p>Naturally grown produce without harmful pesticides or chemicals.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== AUTH PAGE ===================== -->
+<div id="page-auth" class="page">
+  <div class="auth-container">
+    <div class="auth-card" id="loginCard">
+      <h2>Welcome Back 👋</h2>
+      <p class="auth-subtitle">Sign in to your Green Basket account</p>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="loginEmail" placeholder="you@example.com">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="loginPassword" placeholder="••••••••">
+      </div>
+      <button class="btn btn-green" style="width:100%" onclick="handleLogin()">Sign In →</button>
+      <div class="auth-footer">
+        Don't have an account? <a onclick="toggleAuth(false)">Register here</a>
+      </div>
+      <div style="margin-top:1.5rem;padding:1rem;background:var(--cream);border-radius:8px;font-size:0.82rem;color:var(--text-muted);">
+        <strong>Demo Accounts (pw: password123)</strong><br>
+        admin@greenbasket.com | farmer@greenbasket.com<br>
+        customer@greenbasket.com | delivery@greenbasket.com
+      </div>
+    </div>
+
+    <div class="auth-card" id="registerCard" style="display:none">
+      <h2>Create Account 🌱</h2>
+      <p class="auth-subtitle">Join Green Basket today</p>
+      <div style="margin-bottom:1rem;">
+        <label style="font-size:0.9rem;font-weight:500;display:block;margin-bottom:0.5rem;">I am a...</label>
+        <div class="role-selector">
+          <div class="role-option selected" onclick="selectRole('customer', this)">
+            <span class="role-icon">🛒</span><span>Customer</span>
+          </div>
+          <div class="role-option" onclick="selectRole('farmer', this)">
+            <span class="role-icon">🌾</span><span>Farmer</span>
+          </div>
+          <div class="role-option" onclick="selectRole('delivery', this)">
+            <span class="role-icon">🚚</span><span>Delivery</span>
+          </div>
+        </div>
+        <input type="hidden" id="regRole" value="customer">
+      </div>
+      <div class="form-group"><label>Full Name</label><input type="text" id="regName" placeholder="Your full name"></div>
+      <div class="form-group"><label>Email Address</label><input type="email" id="regEmail" placeholder="you@example.com"></div>
+      <div class="form-group"><label>Password</label><input type="password" id="regPassword" placeholder="Min 6 characters"></div>
+      <div class="form-group"><label>Phone Number</label><input type="tel" id="regPhone" placeholder="10 digit mobile number"></div>
+      <div class="form-group"><label>Address</label><input type="text" id="regAddress" placeholder="Your address"></div>
+      <button class="btn btn-green" style="width:100%" onclick="handleRegister()">Create Account →</button>
+      <div class="auth-footer">Already have an account? <a onclick="toggleAuth(true)">Login here</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== PRODUCTS PAGE ===================== -->
+<div id="page-products" class="page">
+  <div class="search-bar">
+    <input class="search-input" type="text" id="searchInput" placeholder="🔍 Search fresh produce..." oninput="filterProducts()">
+  </div>
+  <div class="section-header">
+    <h2>Fresh Produce</h2>
+    <div class="filters" id="categoryFilters">
+      <button class="filter-btn active" onclick="setCategoryFilter('all', this)">All</button>
+      <button class="filter-btn" onclick="setCategoryFilter('vegetables', this)">🥦 Vegetables</button>
+      <button class="filter-btn" onclick="setCategoryFilter('fruits', this)">🍎 Fruits</button>
+      <button class="filter-btn" onclick="setCategoryFilter('grains', this)">🌾 Grains</button>
+      <button class="filter-btn" onclick="setCategoryFilter('dairy', this)">🥛 Dairy</button>
+      <button class="filter-btn" onclick="setCategoryFilter('herbs', this)">🌿 Herbs</button>
+    </div>
+  </div>
+  <div class="products-grid" id="productsGrid">
+    <div class="loader">Loading fresh produce... 🌱</div>
+  </div>
+</div>
+
+<!-- ===================== CART PAGE ===================== -->
+<div id="page-cart" class="page">
+  <div class="cart-container">
+    <h2 style="color:var(--green);margin-bottom:1.5rem;font-size:2rem;">Your Cart 🛒</h2>
+    <div id="cartItems"></div>
+    <div id="cartSummary"></div>
+  </div>
+</div>
+
+<!-- ===================== CHECKOUT PAGE ===================== -->
+<div id="page-checkout" class="page">
+  <div class="cart-container">
+    <h2 style="color:var(--green);margin-bottom:1.5rem;font-size:2rem;">Checkout 📦</h2>
+    <div class="checkout-container" style="max-width:100%;margin:0;padding:0;">
+      <div class="checkout-form-card">
+        <h3>Delivery Details</h3>
+        <div class="cod-badge">💵 Payment: Cash on Delivery (COD)</div>
+        <div class="form-group"><label>Full Name</label><input type="text" id="chkName" placeholder="Your full name"></div>
+        <div class="form-group"><label>Phone Number</label><input type="tel" id="chkPhone" placeholder="10 digit number"></div>
+        <div class="form-group"><label>Delivery Address</label><textarea id="chkAddress" placeholder="House no, Street, Area, City, PIN code" rows="3"></textarea></div>
+        <div class="form-group"><label>Order Notes (Optional)</label><input type="text" id="chkNotes" placeholder="Any special instructions?"></div>
+        <button class="btn btn-green" style="width:100%;padding:14px;" onclick="placeOrder()">✅ Place Order (COD)</button>
+      </div>
+      <div class="order-summary-card">
+        <h3>Order Summary</h3>
+        <div id="checkoutSummary"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== FARMER DASHBOARD ===================== -->
+<div id="page-farmer" class="page">
+  <div class="dashboard">
+    <div class="dashboard-header">
+      <h2>Farmer Dashboard 🌾</h2>
+      <p id="farmerWelcome">Manage your products and track orders</p>
+    </div>
+    <div class="stats-grid" id="farmerStats"></div>
+    <div class="section-card">
+      <h3>My Products <button class="btn btn-green btn-sm" onclick="showAddProductModal()">+ Add Product</button></h3>
+      <div id="farmerProducts"></div>
+    </div>
+    <div class="section-card">
+      <h3>Orders Received</h3>
+      <div id="farmerOrders"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== CUSTOMER DASHBOARD ===================== -->
+<div id="page-customer" class="page">
+  <div class="dashboard">
+    <div class="dashboard-header">
+      <h2>My Orders 📦</h2>
+      <p id="customerWelcome">Track your orders and see history</p>
+    </div>
+    <div id="customerOrders"></div>
+  </div>
+</div>
+
+<!-- ===================== DELIVERY DASHBOARD ===================== -->
+<div id="page-delivery" class="page">
+  <div class="dashboard">
+    <div class="dashboard-header">
+      <h2>Delivery Dashboard 🚚</h2>
+      <p id="deliveryWelcome">Your assigned deliveries</p>
+    </div>
+    <div class="stats-grid" id="deliveryStats"></div>
+    <div id="deliveryOrders"></div>
+  </div>
+</div>
+
+<!-- ===================== ADMIN DASHBOARD ===================== -->
+<div id="page-admin" class="page">
+  <div class="dashboard">
+    <div class="dashboard-header">
+      <h2>Admin Dashboard 🔐</h2>
+      <p>Complete control over Green Basket platform</p>
+    </div>
+
+    <!-- TABS -->
+    <div style="display:flex;gap:0.5rem;margin-bottom:1.5rem;flex-wrap:wrap">
+      <button class="filter-btn active" onclick="showAdminTab('stats', this)">📊 Stats</button>
+      <button class="filter-btn" onclick="showAdminTab('orders', this)">📦 Orders</button>
+      <button class="filter-btn" onclick="showAdminTab('products', this)">🌿 Products</button>
+      <button class="filter-btn" onclick="showAdminTab('users', this)">👥 Users</button>
+      <button class="filter-btn" onclick="showAdminTab('database', this)">🗄️ Database</button>
+    </div>
+
+    <!-- STATS TAB -->
+    <div id="adminTab-stats">
+      <div class="stats-grid" id="adminStats"></div>
+      <!-- Revenue Chart -->
+      <div class="section-card" style="margin-top:1.5rem">
+        <h3>📈 Revenue & Orders Chart</h3>
+        <canvas id="revenueChart" height="100"></canvas>
+      </div>
+    </div>
+
+    <!-- ORDERS TAB -->
+    <div id="adminTab-orders" style="display:none">
+      <div class="section-card">
+        <h3>📦 All Orders
+          <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+            <select id="orderStatusFilter" onchange="filterAdminOrders()" style="padding:6px 12px;border-radius:8px;border:2px solid var(--green-pale);font-family:inherit">
+              <option value="all">All Status</option>
+              <option value="Pending">Pending</option>
+              <option value="Assigned">Assigned</option>
+              <option value="Out for Delivery">Out for Delivery</option>
+              <option value="Delivered">Delivered</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+          </div>
+        </h3>
+        <div id="adminOrders"></div>
+      </div>
+    </div>
+
+    <!-- PRODUCTS TAB -->
+    <div id="adminTab-products" style="display:none">
+      <div class="section-card">
+        <h3>🌿 All Products</h3>
+        <div id="adminProducts"></div>
+      </div>
+    </div>
+
+    <!-- USERS TAB -->
+    <div id="adminTab-users" style="display:none">
+      <div class="section-card">
+        <h3>👥 All Users
+          <select id="userRoleFilter" onchange="filterAdminUsers()" style="padding:6px 12px;border-radius:8px;border:2px solid var(--green-pale);font-family:inherit">
+            <option value="all">All Roles</option>
+            <option value="customer">Customers</option>
+            <option value="farmer">Farmers</option>
+            <option value="delivery">Delivery</option>
+            <option value="admin">Admin</option>
+          </select>
+        </h3>
+        <div id="adminUsers"></div>
+      </div>
+    </div>
+
+    <!-- DATABASE TAB -->
+    <div id="adminTab-database" style="display:none">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="dbUsers">-</div>
+          <div class="stat-label">👥 Total Users</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="dbProducts">-</div>
+          <div class="stat-label">🌿 Total Products</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="dbOrders">-</div>
+          <div class="stat-label">📦 Total Orders</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="dbRevenue">-</div>
+          <div class="stat-label">💰 Total Revenue</div>
+        </div>
+      </div>
+      <div class="section-card" style="margin-top:1.5rem">
+        <h3>🗄️ Database Overview</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1rem">
+          <div style="background:var(--green-pale);padding:1.25rem;border-radius:12px">
+            <div style="font-size:1.5rem;margin-bottom:0.5rem">👥</div>
+            <strong>Users Collection</strong>
+            <p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.25rem">Farmers, Customers, Delivery Boys, Admins</p>
+          </div>
+          <div style="background:var(--green-pale);padding:1.25rem;border-radius:12px">
+            <div style="font-size:1.5rem;margin-bottom:0.5rem">🌿</div>
+            <strong>Products Collection</strong>
+            <p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.25rem">All farm products listed by farmers</p>
+          </div>
+          <div style="background:var(--green-pale);padding:1.25rem;border-radius:12px">
+            <div style="font-size:1.5rem;margin-bottom:0.5rem">📦</div>
+            <strong>Orders Collection</strong>
+            <p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.25rem">All customer orders with delivery status</p>
+          </div>
+        </div>
+        <div style="margin-top:1.5rem;padding:1rem;background:#fff3cd;border-radius:8px;font-size:0.9rem">
+          ⚠️ <strong>Database:</strong> MongoDB Atlas (Cloud) — 
+          <a href="https://cloud.mongodb.com" target="_blank" style="color:var(--green)">Open Atlas Dashboard →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ADD PRODUCT MODAL ===================== -->
+<div class="modal-overlay" id="productModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3 id="productModalTitle">Add New Product</h3>
+    <input type="hidden" id="editProductId">
+    <div class="product-form-grid">
+      <div class="form-group"><label>Product Name *</label><input type="text" id="pName" placeholder="e.g. Fresh Tomatoes"></div>
+      <div class="form-group"><label>Category</label>
+        <select id="pCategory">
+          <option value="vegetables">🥦 Vegetables</option>
+          <option value="fruits">🍎 Fruits</option>
+          <option value="grains">🌾 Grains</option>
+          <option value="dairy">🥛 Dairy</option>
+          <option value="herbs">🌿 Herbs</option>
+          <option value="other">📦 Other</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Price (₹) *</label><input type="number" id="pPrice" placeholder="e.g. 45" min="0"></div>
+      <div class="form-group"><label>Quantity *</label><input type="number" id="pQty" placeholder="e.g. 100" min="0"></div>
+      <div class="form-group"><label>Unit</label>
+        <select id="pUnit">
+          <option value="kg">kg</option>
+          <option value="litre">litre</option>
+          <option value="dozen">dozen</option>
+          <option value="bundle">bundle</option>
+          <option value="piece">piece</option>
+          <option value="gram">gram</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Image (Optional)</label><input type="file" id="pImage" accept="image/*"></div>
+    </div>
+    <div class="form-group"><label>Description</label><textarea id="pDesc" placeholder="Describe your product..."></textarea></div>
+    <div style="display:flex;gap:1rem;margin-top:1rem;">
+      <button class="btn btn-green" style="flex:1" onclick="saveProduct()">Save Product</button>
+      <button class="btn" style="background:#f3f4f6;flex:1" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+//  STATE
+// ============================================================
+const API = 'http://localhost:5000/api';
+let currentUser = JSON.parse(localStorage.getItem('gb_user')) || null;
+let token = localStorage.getItem('gb_token') || null;
+let cart = JSON.parse(localStorage.getItem('gb_cart')) || [];
+let allProducts = [];
+let categoryFilter = 'all';
+
+// ============================================================
+//  CATEGORY EMOJIS
+// ============================================================
+const catEmoji = { vegetables:'🥦', fruits:'🍎', grains:'🌾', dairy:'🥛', herbs:'🌿', other:'📦' };
+function getProductEmoji(cat) { return catEmoji[cat] || '🌿'; }
+
+// ============================================================
+//  NAVIGATION
+// ============================================================
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const el = document.getElementById('page-' + page);
+  if (el) el.classList.add('active');
+  window.scrollTo(0, 0);
+
+  if (page === 'products') loadProducts();
+  if (page === 'cart') renderCart();
+  if (page === 'checkout') renderCheckout();
+  if (page === 'farmer') loadFarmerDashboard();
+  if (page === 'customer') loadCustomerOrders();
+  if (page === 'delivery') loadDeliveryDashboard();
+  if (page === 'admin') loadAdminDashboard();
+}
+
+function updateNav() {
+  const links = document.getElementById('navLinks');
+  if (currentUser) {
+    const dashPage = currentUser.role === 'farmer' ? 'farmer' :
+                     currentUser.role === 'admin' ? 'admin' :
+                     currentUser.role === 'delivery' ? 'delivery' : 'customer';
+    links.innerHTML = `
+      <a onclick="showPage('products')">🛍️ Shop</a>
+      ${currentUser.role === 'customer' ? `<a class="cart-btn" onclick="showPage('cart')">🛒 Cart <span class="cart-count" id="cartCount">${cart.length}</span></a>` : ''}
+      <a onclick="showPage('${dashPage}')">📊 Dashboard</a>
+      <button class="btn-nav" onclick="logout()">👋 Logout</button>
+    `;
+  } else {
+    links.innerHTML = `
+      <a onclick="showPage('products')">🛍️ <span class="label">Shop</span></a>
+      <a onclick="showPage('auth')" id="loginBtn">Login</a>
+      <button class="btn-nav" onclick="showPage('auth')" id="registerBtn">Register</button>
+    `;
+  }
+  updateCartCount();
+}
+
+function updateCartCount() {
+  const el = document.getElementById('cartCount');
+  if (el) el.textContent = cart.reduce((s, i) => s + i.qty, 0);
+}
+
+// ============================================================
+//  AUTH
+// ============================================================
+function toggleAuth(showLogin) {
+  document.getElementById('loginCard').style.display = showLogin ? 'block' : 'none';
+  document.getElementById('registerCard').style.display = showLogin ? 'none' : 'block';
+}
+
+function selectRole(role, el) {
+  document.querySelectorAll('.role-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('regRole').value = role;
+}
+
+async function handleLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  if (!email || !password) return toast('Please fill in all fields', 'error');
+
+  try {
+    const res = await apiCall('/auth/login', 'POST', { email, password });
+    token = res.token;
+    currentUser = res.user;
+    localStorage.setItem('gb_token', token);
+    localStorage.setItem('gb_user', JSON.stringify(currentUser));
+    updateNav();
+    toast(`Welcome back, ${currentUser.name}! 👋`);
+    
+    // Redirect to appropriate dashboard
+    const dashPage = currentUser.role === 'farmer' ? 'farmer' :
+                     currentUser.role === 'admin' ? 'admin' :
+                     currentUser.role === 'delivery' ? 'delivery' : 'products';
+    showPage(dashPage);
+  } catch (err) {
+    toast(err.message || 'Login failed', 'error');
+  }
+}
+
+async function handleRegister() {
+  const name = document.getElementById('regName').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const password = document.getElementById('regPassword').value;
+  const role = document.getElementById('regRole').value;
+  const phone = document.getElementById('regPhone').value.trim();
+  const address = document.getElementById('regAddress').value.trim();
+  if (!name || !email || !password) return toast('Name, email, and password required', 'error');
+
+  try {
+    const res = await apiCall('/auth/register', 'POST', { name, email, password, role, phone, address });
+    token = res.token;
+    currentUser = res.user;
+    localStorage.setItem('gb_token', token);
+    localStorage.setItem('gb_user', JSON.stringify(currentUser));
+    updateNav();
+    toast(`Account created! Welcome, ${currentUser.name}! 🎉`);
+    const dashPage = currentUser.role === 'farmer' ? 'farmer' :
+                     currentUser.role === 'delivery' ? 'delivery' : 'products';
+    showPage(dashPage);
+  } catch (err) {
+    toast(err.message || 'Registration failed', 'error');
+  }
+}
+
+function logout() {
+  currentUser = null;
+  token = null;
+  cart = [];
+  localStorage.removeItem('gb_token');
+  localStorage.removeItem('gb_user');
+  localStorage.removeItem('gb_cart');
+  updateNav();
+  toast('Logged out successfully');
+  showPage('home');
+}
+
+// ============================================================
+//  PRODUCTS
+// ============================================================
+async function loadProducts() {
+  const grid = document.getElementById('productsGrid');
+  grid.innerHTML = '<div class="loader">Loading fresh produce... 🌱</div>';
+  try {
+    allProducts = await apiCall('/products');
+    renderProducts();
+  } catch (err) {
+    grid.innerHTML = `<div class="empty-state"><div class="emoji">⚠️</div><h3>Could not load products</h3><p>Make sure the backend server is running</p></div>`;
+  }
+}
+
+function renderProducts() {
+  const grid = document.getElementById('productsGrid');
+  const search = document.getElementById('searchInput')?.value.toLowerCase() || '';
+  let filtered = allProducts;
+  if (categoryFilter !== 'all') filtered = filtered.filter(p => p.category === categoryFilter);
+  if (search) filtered = filtered.filter(p => p.name.toLowerCase().includes(search) || p.description?.toLowerCase().includes(search));
+  
+  if (!filtered.length) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div class="emoji">🥺</div><h3>No products found</h3><p>Try a different search or category</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(p => `
+    <div class="product-card">
+      <div class="product-img">${p.image ? `<img src="${API.replace('/api','')}${p.image}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentNode.innerHTML='${getProductEmoji(p.category)}'">` : getProductEmoji(p.category)}</div>
+      <div class="product-info">
+        <span class="product-category">${p.category}</span>
+        <div class="product-name">${p.name}</div>
+        <div class="product-farmer">🌾 ${p.farmerName || 'Local Farmer'}</div>
+        <div class="product-footer">
+          <div class="product-price">₹${p.price} <span>/ ${p.unit}</span></div>
+          ${currentUser?.role === 'customer' || !currentUser 
+            ? `<button class="add-cart-btn" onclick="addToCart(${JSON.stringify(p).replace(/"/g,'&quot;')})">+ Cart</button>`
+            : `<span class="status status-delivered" style="font-size:0.75rem">${p.quantity} ${p.unit}</span>`
+          }
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function setCategoryFilter(cat, el) {
+  categoryFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  renderProducts();
+}
+
+function filterProducts() { renderProducts(); }
+
+// ============================================================
+//  CART
+// ============================================================
+function addToCart(product) {
+  if (!currentUser) { toast('Please login to add to cart', 'warning'); showPage('auth'); return; }
+  const existing = cart.find(i => i.productId === product._id);
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({ productId: product._id, name: product.name, price: product.price, unit: product.unit, qty: 1, farmerName: product.farmerName, category: product.category });
+  }
+  localStorage.setItem('gb_cart', JSON.stringify(cart));
+  updateCartCount();
+  toast(`${product.name} added to cart! 🛒`);
+}
+
+function updateCartQty(productId, delta) {
+  const item = cart.find(i => i.productId === productId);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) cart = cart.filter(i => i.productId !== productId);
+  localStorage.setItem('gb_cart', JSON.stringify(cart));
+  updateCartCount();
+  renderCart();
+}
+
+function removeFromCart(productId) {
+  cart = cart.filter(i => i.productId !== productId);
+  localStorage.setItem('gb_cart', JSON.stringify(cart));
+  updateCartCount();
+  renderCart();
+}
+
+function renderCart() {
+  const el = document.getElementById('cartItems');
+  const sumEl = document.getElementById('cartSummary');
+  if (!cart.length) {
+    el.innerHTML = `<div class="empty-state"><div class="emoji">🛒</div><h3>Your cart is empty</h3><p>Browse fresh produce and add items to cart</p><br><button class="btn btn-green" onclick="showPage('products')">Shop Now</button></div>`;
+    sumEl.innerHTML = '';
+    return;
+  }
+  
+  el.innerHTML = cart.map(item => `
+    <div class="cart-item">
+      <div class="cart-item-emoji">${getProductEmoji(item.category)}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-meta">🌾 ${item.farmerName || 'Farmer'} • ₹${item.price}/${item.unit}</div>
+      </div>
+      <div class="qty-controls">
+        <button class="qty-btn" onclick="updateCartQty('${item.productId}', -1)">−</button>
+        <span class="qty-display">${item.qty}</span>
+        <button class="qty-btn" onclick="updateCartQty('${item.productId}', 1)">+</button>
+      </div>
+      <div class="cart-item-price">₹${(item.price * item.qty).toFixed(0)}</div>
+      <button class="remove-btn" onclick="removeFromCart('${item.productId}')">🗑️</button>
+    </div>
+  `).join('');
+
+  const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  const delivery = total > 0 ? 30 : 0;
+  sumEl.innerHTML = `
+    <div class="cart-summary">
+      <h3>Order Summary</h3>
+      <div class="summary-row"><span>Subtotal (${cart.reduce((s,i) => s+i.qty,0)} items)</span><span>₹${total.toFixed(0)}</span></div>
+      <div class="summary-row"><span>Delivery</span><span style="color:var(--green)">₹${delivery}</span></div>
+      <div class="summary-row"><span>Payment</span><span>💵 Cash on Delivery</span></div>
+      <div class="summary-row total"><span>Total</span><span>₹${(total+delivery).toFixed(0)}</span></div>
+      <button class="btn btn-green" style="width:100%;margin-top:1rem;padding:14px" onclick="proceedToCheckout()">Proceed to Checkout →</button>
+    </div>
+  `;
+}
+
+function proceedToCheckout() {
+  if (!currentUser) { toast('Please login to checkout', 'warning'); showPage('auth'); return; }
+  showPage('checkout');
+}
+
+function renderCheckout() {
+  if (!currentUser) { showPage('auth'); return; }
+  // Pre-fill user info
+  if (currentUser.phone) document.getElementById('chkPhone').value = currentUser.phone;
+  if (currentUser.address) document.getElementById('chkAddress').value = currentUser.address;
+  document.getElementById('chkName').value = currentUser.name || '';
+  
+  const el = document.getElementById('checkoutSummary');
+  const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  el.innerHTML = `
+    ${cart.map(i => `<div class="summary-row"><span>${i.name} x${i.qty}</span><span>₹${(i.price*i.qty).toFixed(0)}</span></div>`).join('')}
+    <div class="summary-row"><span>Delivery</span><span style="color:var(--green)">₹30</span></div>
+    <div class="summary-row total"><span>Total</span><span>₹${(total+30).toFixed(0)}</span></div>
+    <div style="margin-top:1rem;background:var(--green-pale);padding:12px;border-radius:8px;font-size:0.85rem;color:var(--green)">
+      ✅ A delivery partner will be auto-assigned to your order
+    </div>
+  `;
+}
+
+async function placeOrder() {
+  const name = document.getElementById('chkName').value.trim();
+  const phone = document.getElementById('chkPhone').value.trim();
+  const address = document.getElementById('chkAddress').value.trim();
+  const notes = document.getElementById('chkNotes').value.trim();
+  if (!phone || !address) return toast('Phone and address are required', 'error');
+  if (!cart.length) return toast('Your cart is empty', 'error');
+
+  const orderData = {
+    products: cart.map(i => ({ productId: i.productId, quantity: i.qty })),
+    address, phone, notes
+  };
+
+  try {
+    const order = await apiCall('/orders', 'POST', orderData);
+    cart = [];
+    localStorage.setItem('gb_cart', JSON.stringify(cart));
+    updateCartCount();
+    toast(`🎉 Order placed! ${order.deliveryBoyName ? 'Delivery by ' + order.deliveryBoyName : 'Delivery being assigned...'}`);
+    showPage('customer');
+  } catch (err) {
+    toast(err.message || 'Failed to place order', 'error');
+  }
+}
+
+// ============================================================
+//  FARMER DASHBOARD
+// ============================================================
+async function loadFarmerDashboard() {
+  document.getElementById('farmerWelcome').textContent = `Welcome, ${currentUser?.name}!`;
+  try {
+    const [products, orders] = await Promise.all([
+      apiCall('/products/my'),
+      apiCall('/orders/farmer')
+    ]);
+    
+    const totalRevenue = orders.filter(o => o.paymentStatus === 'Completed').reduce((s, o) => s + o.totalPrice, 0);
+    document.getElementById('farmerStats').innerHTML = `
+      <div class="stat-card"><div class="stat-value">${products.length}</div><div class="stat-label">Products Listed</div></div>
+      <div class="stat-card"><div class="stat-value">${orders.length}</div><div class="stat-label">Total Orders</div></div>
+      <div class="stat-card"><div class="stat-value">${orders.filter(o=>o.orderStatus==='Delivered').length}</div><div class="stat-label">Delivered</div></div>
+      <div class="stat-card"><div class="stat-value">₹${totalRevenue}</div><div class="stat-label">Revenue Earned</div></div>
+    `;
+
+    document.getElementById('farmerProducts').innerHTML = products.length
+      ? `<table><thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Actions</th></tr></thead><tbody>
+          ${products.map(p => `<tr>
+            <td><strong>${p.name}</strong><br><small style="color:var(--text-muted)">${p.description?.slice(0,40) || ''}</small></td>
+            <td>${getProductEmoji(p.category)} ${p.category}</td>
+            <td>₹${p.price}/${p.unit}</td>
+            <td><span class="status ${p.quantity > 0 ? 'status-delivered' : 'status-cancelled'}">${p.quantity} ${p.unit}</span></td>
+            <td>
+              <button class="btn btn-green btn-sm" style="margin-right:4px" onclick="editProduct(${JSON.stringify(p).replace(/"/g,'&quot;')})">Edit</button>
+              <button class="btn btn-red btn-sm" onclick="deleteProduct('${p._id}')">Delete</button>
+            </td>
+          </tr>`).join('')}
+        </tbody></table>`
+      : `<div class="empty-state"><div class="emoji">🌱</div><h3>No products yet</h3><p>Add your first product to start selling</p></div>`;
+
+    document.getElementById('farmerOrders').innerHTML = orders.length
+      ? orders.slice(0, 10).map(o => `
+          <div class="order-card">
+            <div class="order-card-header">
+              <div><strong>${o.customerName}</strong><br><span class="order-id">Order #${o._id.slice(-6).toUpperCase()}</span></div>
+              <span class="status status-${o.orderStatus.toLowerCase().replace(/ /g,'-')}">${o.orderStatus}</span>
+            </div>
+            <div class="order-items">${o.products.map(p => `${p.productName} x${p.quantity}`).join(', ')}</div>
+            <div class="order-meta">
+              <span>💰 ₹${o.totalPrice}</span>
+              <span>📍 ${o.address?.slice(0,30)}...</span>
+              <span>📅 ${new Date(o.createdAt).toLocaleDateString()}</span>
+            </div>
+          </div>`).join('')
+      : `<div class="empty-state"><div class="emoji">📦</div><h3>No orders yet</h3></div>`;
+  } catch (err) {
+    toast('Error loading dashboard', 'error');
+  }
+}
+
+function showAddProductModal() {
+  document.getElementById('productModalTitle').textContent = 'Add New Product';
+  document.getElementById('editProductId').value = '';
+  ['pName','pPrice','pQty','pDesc'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('productModal').classList.add('open');
+}
+
+function editProduct(product) {
+  document.getElementById('productModalTitle').textContent = 'Edit Product';
+  document.getElementById('editProductId').value = product._id;
+  document.getElementById('pName').value = product.name;
+  document.getElementById('pPrice').value = product.price;
+  document.getElementById('pQty').value = product.quantity;
+  document.getElementById('pDesc').value = product.description || '';
+  document.getElementById('pCategory').value = product.category;
+  document.getElementById('pUnit').value = product.unit;
+  document.getElementById('productModal').classList.add('open');
+}
+
+function closeModal() { document.getElementById('productModal').classList.remove('open'); }
+
+async function saveProduct() {
+  const id = document.getElementById('editProductId').value;
+  const formData = new FormData();
+  formData.append('name', document.getElementById('pName').value);
+  formData.append('price', document.getElementById('pPrice').value);
+  formData.append('quantity', document.getElementById('pQty').value);
+  formData.append('description', document.getElementById('pDesc').value);
+  formData.append('category', document.getElementById('pCategory').value);
+  formData.append('unit', document.getElementById('pUnit').value);
+  const imageFile = document.getElementById('pImage').files[0];
+  if (imageFile) formData.append('image', imageFile);
+
+  try {
+    const url = id ? `${API}/products/${id}` : `${API}/products`;
+    const method = id ? 'PUT' : 'POST';
+    const res = await fetch(url, { method, headers: { 'Authorization': `Bearer ${token}` }, body: formData });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    toast(id ? 'Product updated! ✅' : 'Product added! 🎉');
+    closeModal();
+    loadFarmerDashboard();
+  } catch (err) {
+    toast(err.message || 'Failed to save product', 'error');
+  }
+}
+
+async function deleteProduct(id) {
+  if (!confirm('Delete this product?')) return;
+  try {
+    await apiCall(`/products/${id}`, 'DELETE');
+    toast('Product deleted');
+    loadFarmerDashboard();
+  } catch (err) {
+    toast(err.message, 'error');
+  }
+}
+
+// ============================================================
+//  CUSTOMER ORDERS
+// ============================================================
+async function loadCustomerOrders() {
+  document.getElementById('customerWelcome').textContent = `Hello, ${currentUser?.name}!`;
+  const el = document.getElementById('customerOrders');
+  el.innerHTML = '<div class="loader">Loading orders... 📦</div>';
+  try {
+    const orders = await apiCall('/orders/my');
+    el.innerHTML = orders.length ? orders.map(o => `
+      <div class="order-card">
+        <div class="order-card-header">
+          <div>
+            <strong>Order #${o._id.slice(-6).toUpperCase()}</strong>
+            <br><span class="order-id">📅 ${new Date(o.createdAt).toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'})}</span>
+          </div>
+          <div style="text-align:right">
+            <span class="status status-${o.orderStatus.toLowerCase().replace(/ /g,'-')}">${o.orderStatus}</span>
+            <br><span class="status ${o.paymentStatus==='Completed' ? 'status-completed' : 'status-pending'}" style="margin-top:4px">${o.paymentStatus}</span>
+          </div>
+        </div>
+        <div class="order-items">
+          ${o.products.map(p => `${getProductEmoji('vegetables')} ${p.productName} x${p.quantity} ${p.unit}`).join(' • ')}
+        </div>
+        <div class="order-meta">
+          <span>💰 ₹${o.totalPrice}</span>
+          <span>💵 COD</span>
+          ${o.deliveryBoyName ? `<span>🚚 ${o.deliveryBoyName}</span>` : '<span>🔄 Assigning delivery...</span>'}
+          <span>📍 ${o.address.slice(0,35)}...</span>
+        </div>
+        ${o.orderStatus === 'Pending' || o.orderStatus === 'Assigned' ? `
+          <div class="order-actions">
+            <button class="btn btn-red btn-sm" onclick="cancelOrder('${o._id}')">Cancel Order</button>
+          </div>` : ''}
+      </div>
+    `).join('') : `<div class="empty-state"><div class="emoji">📦</div><h3>No orders yet</h3><p>Start shopping for fresh produce!</p><br><button class="btn btn-green" onclick="showPage('products')">Shop Now</button></div>`;
+  } catch (err) {
+    el.innerHTML = `<div class="empty-state"><div class="emoji">⚠️</div><h3>Error loading orders</h3></div>`;
+  }
+}
+
+async function cancelOrder(id) {
+  if (!confirm('Cancel this order?')) return;
+  try {
+    await apiCall(`/orders/${id}/cancel`, 'PUT');
+    toast('Order cancelled');
+    loadCustomerOrders();
+  } catch (err) {
+    toast(err.message, 'error');
+  }
+}
+
+// ============================================================
+//  DELIVERY DASHBOARD
+// ============================================================
+async function loadDeliveryDashboard() {
+  document.getElementById('deliveryWelcome').textContent = `Hey ${currentUser?.name}, ready for deliveries?`;
+  try {
+    const orders = await apiCall('/delivery/orders');
+    const pending = orders.filter(o => o.orderStatus !== 'Delivered' && o.orderStatus !== 'Cancelled');
+    const delivered = orders.filter(o => o.orderStatus === 'Delivered');
+
+    document.getElementById('deliveryStats').innerHTML = `
+      <div class="stat-card"><div class="stat-value">${orders.length}</div><div class="stat-label">Total Assigned</div></div>
+      <div class="stat-card"><div class="stat-value">${pending.length}</div><div class="stat-label">Pending</div></div>
+      <div class="stat-card"><div class="stat-value">${delivered.length}</div><div class="stat-label">Delivered</div></div>
+    `;
+
+    document.getElementById('deliveryOrders').innerHTML = orders.length ? orders.map(o => `
+      <div class="order-card">
+        <div class="order-card-header">
+          <div>
+            <strong>${o.customerName}</strong>
+            <br><span class="order-id">Order #${o._id.slice(-6).toUpperCase()} • ₹${o.totalPrice} COD</span>
+          </div>
+          <span class="status status-${o.orderStatus.toLowerCase().replace(/ /g,'-')}">${o.orderStatus}</span>
+        </div>
+        <div class="order-items">📦 ${o.products.map(p => `${p.productName} x${p.quantity}`).join(', ')}</div>
+        <div class="order-meta">
+          <span>📞 ${o.phone}</span>
+          <span>📍 ${o.address}</span>
+        </div>
+        ${o.orderStatus !== 'Delivered' && o.orderStatus !== 'Cancelled' ? `
+          <div class="order-actions">
+            <button class="btn btn-green btn-sm" onclick="updateOrderStatus('${o._id}', 'Out for Delivery')">🚚 Out for Delivery</button>
+            <button class="btn btn-green btn-sm" style="background:var(--green-light)" onclick="updateOrderStatus('${o._id}', 'Delivered')">✅ Mark Delivered</button>
+            <button class="btn btn-red btn-sm" onclick="updateOrderStatus('${o._id}', 'Cancelled')">❌ Not Delivered</button>
+          </div>` : ''}
+      </div>
+    `).join('') : `<div class="empty-state"><div class="emoji">🚚</div><h3>No deliveries assigned yet</h3><p>Wait for orders to be assigned</p></div>`;
+  } catch (err) {
+    toast('Error loading deliveries', 'error');
+  }
+}
+
+async function updateOrderStatus(id, status) {
+  try {
+    await apiCall(`/delivery/orders/${id}/status`, 'PUT', { status });
+    toast(`Order marked as ${status} ✅`);
+    loadDeliveryDashboard();
+  } catch (err) {
+    toast(err.message, 'error');
+  }
+}
+
+// ============================================================
+//  ADMIN DASHBOARD
+// ============================================================
+async function loadAdminDashboard() {
+  try {
+    const [stats, orders, users] = await Promise.all([
+      apiCall('/admin/stats'),
+      apiCall('/admin/orders'),
+      apiCall('/admin/users')
+    ]);
+
+    document.getElementById('adminStats').innerHTML = `
+      <div class="stat-card"><div class="stat-value">${stats.totalUsers}</div><div class="stat-label">Total Users</div></div>
+      <div class="stat-card"><div class="stat-value">${stats.totalOrders}</div><div class="stat-label">Total Orders</div></div>
+      <div class="stat-card"><div class="stat-value">${stats.totalProducts}</div><div class="stat-label">Products</div></div>
+      <div class="stat-card"><div class="stat-value">₹${stats.totalRevenue}</div><div class="stat-label">Revenue</div></div>
+      <div class="stat-card"><div class="stat-value">${stats.farmers}</div><div class="stat-label">Farmers</div></div>
+      <div class="stat-card"><div class="stat-value">${stats.deliveryBoys}</div><div class="stat-label">Delivery Boys</div></div>
+      <div class="stat-card"><div class="stat-value">${stats.pendingOrders}</div><div class="stat-label">Pending Orders</div></div>
+      <div class="stat-card"><div class="stat-value">${stats.deliveredOrders}</div><div class="stat-label">Delivered</div></div>
+    `;
+
+    document.getElementById('adminOrders').innerHTML = `
+      <div style="overflow-x:auto">
+      <table><thead><tr><th>Order ID</th><th>Customer</th><th>Total</th><th>Status</th><th>Payment</th><th>Delivery Boy</th><th>Date</th></tr></thead>
+      <tbody>${orders.slice(0,20).map(o => `<tr>
+        <td>#${o._id.slice(-6).toUpperCase()}</td>
+        <td>${o.customerName}</td>
+        <td>₹${o.totalPrice}</td>
+        <td><span class="status status-${o.orderStatus.toLowerCase().replace(/ /g,'-')}">${o.orderStatus}</span></td>
+        <td><span class="status ${o.paymentStatus==='Completed'?'status-completed':'status-pending'}">${o.paymentStatus}</span></td>
+        <td>${o.deliveryBoyName || '<span style="color:var(--text-muted)">Not assigned</span>'}</td>
+        <td>${new Date(o.createdAt).toLocaleDateString()}</td>
+      </tr>`).join('')}</tbody></table></div>`;
+
+    document.getElementById('adminUsers').innerHTML = `
+      <div style="overflow-x:auto">
+      <table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Phone</th><th>Joined</th></tr></thead>
+      <tbody>${users.map(u => `<tr>
+        <td><strong>${u.name}</strong></td>
+        <td>${u.email}</td>
+        <td><span class="status status-${u.role === 'admin' ? 'pending' : u.role === 'farmer' ? 'delivered' : u.role === 'delivery' ? 'assigned' : 'completed'}">${u.role}</span></td>
+        <td>${u.phone || '—'}</td>
+        <td>${new Date(u.createdAt).toLocaleDateString()}</td>
+      </tr>`).join('')}</tbody></table></div>`;
+  } catch (err) {
+    toast('Error loading admin dashboard', 'error');
+  }
+}
+
+// ============================================================
+//  API HELPER
+// ============================================================
+async function apiCall(endpoint, method = 'GET', body = null) {
+  const opts = {
+    method,
+    headers: { 'Content-Type': 'application/json' }
+  };
+  if (token) opts.headers['Authorization'] = `Bearer ${token}`;
+  if (body) opts.body = JSON.stringify(body);
+
+  const res = await fetch(API + endpoint, opts);
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || 'Request failed');
+  return data;
+}
+
+// ============================================================
+//  TOAST
+// ============================================================
+function toast(msg, type = 'success') {
+  const container = document.getElementById('toast-container');
+  const el = document.createElement('div');
+  el.className = `toast ${type !== 'success' ? type : ''}`;
+  el.innerHTML = `${type === 'error' ? '❌' : type === 'warning' ? '⚠️' : '✅'} ${msg}`;
+  container.appendChild(el);
+  setTimeout(() => el.remove(), 3500);
+}
+
+// ============================================================
+//  INIT
+// ============================================================
+updateNav();
+if (currentUser) {
+  const dashPage = currentUser.role === 'farmer' ? 'farmer' :
+                   currentUser.role === 'admin' ? 'admin' :
+                   currentUser.role === 'delivery' ? 'delivery' : null;
+  // Don't auto-redirect, stay on home
+}
+// ---- CHART.JS LOAD ----
+function loadChartJS(callback) {
+  if (window.Chart) { callback(); return; }
+  const s = document.createElement('script');
+  s.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js';
+  s.onload = callback;
+  document.head.appendChild(s);
+}
+
+// ---- ADMIN TABS ----
+let allAdminOrders = [], allAdminUsers = [], allAdminProducts = [];
+
+function showAdminTab(tab, el) {
+  document.querySelectorAll('[id^="adminTab-"]').forEach(t => t.style.display = 'none');
+  document.getElementById('adminTab-' + tab).style.display = 'block';
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  if (el) el.classList.add('active');
+}
+
+// ---- LOAD ADMIN DASHBOARD ----
+async function loadAdminDashboard() {
+  try {
+    const [stats, orders, users, products] = await Promise.all([
+      apiCall('/admin/stats'),
+      apiCall('/admin/orders'),
+      apiCall('/admin/users'),
+      apiCall('/admin/products')
+    ]);
+
+    allAdminOrders = orders;
+    allAdminUsers = users;
+    allAdminProducts = products;
+
+    // Stats cards
+    document.getElementById('adminStats').innerHTML = `
+      <div class="stat-card"><div class="stat-value">${stats.totalUsers}</div><div class="stat-label">Total Users</div></div>
+      <div class="stat-card"><div class="stat-value">${stats.totalOrders}</div><div class="stat-label">Total Orders</div></div>
+      <div class="stat-card"><div class="stat-value">${stats.totalProducts}</div><div class="stat-label">Products</div></div>
+      <div class="stat-card"><div class="stat-value">₹${stats.totalRevenue}</div><div class="stat-label">Revenue</div></div>
+      <div class="stat-card"><div class="stat-value">${stats.farmers}</div><div class="stat-label">Farmers</div></div>
+      <div class="stat-card"><div class="stat-value">${stats.customers}</div><div class="stat-label">Customers</div></div>
+      <div class="stat-card"><div class="stat-value">${stats.pendingOrders}</div><div class="stat-label">Pending</div></div>
+      <div class="stat-card"><div class="stat-value">${stats.deliveredOrders}</div><div class="stat-label">Delivered</div></div>
+    `;
+
+    // Database tab
+    document.getElementById('dbUsers').textContent = stats.totalUsers;
+    document.getElementById('dbProducts').textContent = stats.totalProducts;
+    document.getElementById('dbOrders').textContent = stats.totalOrders;
+    document.getElementById('dbRevenue').textContent = '₹' + stats.totalRevenue;
+
+    // Chart
+    loadChartJS(() => renderRevenueChart(stats.monthlyOrders || []));
+
+    // Render tables
+    renderAdminOrders(orders);
+    renderAdminProducts(products);
+    renderAdminUsers(users);
+
+  } catch (err) { toast('Error loading admin dashboard', 'error'); }
+}
+
+// ---- REVENUE CHART ----
+function renderRevenueChart(data) {
+  const ctx = document.getElementById('revenueChart');
+  if (!ctx) return;
+  if (window._adminChart) window._adminChart.destroy();
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const labels = data.map(d => months[(d._id || 1) - 1]);
+  const counts = data.map(d => d.count);
+  const revenues = data.map(d => d.revenue);
+  window._adminChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels.length ? labels : ['No Data'],
+      datasets: [
+        { label: 'Orders', data: counts, backgroundColor: 'rgba(45,106,79,0.7)', borderRadius: 8 },
+        { label: 'Revenue (₹)', data: revenues, backgroundColor: 'rgba(231,111,81,0.7)', borderRadius: 8 }
+      ]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'top' } } }
+  });
+}
+
+// ---- ADMIN ORDERS ----
+function renderAdminOrders(orders) {
+  const el = document.getElementById('adminOrders');
+  if (!orders.length) { el.innerHTML = '<div class="empty-state"><div class="emoji">📦</div><h3>No orders</h3></div>'; return; }
+  el.innerHTML = `<div style="overflow-x:auto"><table>
+    <thead><tr><th>Order ID</th><th>Customer</th><th>Total</th><th>Status</th><th>Payment</th><th>Delivery</th><th>Date</th><th>Actions</th></tr></thead>
+    <tbody>${orders.map(o => `<tr>
+      <td>#${o._id.slice(-6).toUpperCase()}</td>
+      <td>${o.customerName}<br><small>${o.phone}</small></td>
+      <td>₹${o.totalPrice}</td>
+      <td><span class="status status-${o.orderStatus.toLowerCase().replace(/ /g,'-')}">${o.orderStatus}</span></td>
+      <td><span class="status ${o.paymentStatus==='Completed'?'status-completed':'status-pending'}">${o.paymentStatus}</span></td>
+      <td>${o.deliveryBoyName || '<span style="color:var(--text-muted)">Not assigned</span>'}</td>
+      <td>${new Date(o.createdAt).toLocaleDateString()}</td>
+      <td>
+        <select onchange="adminChangeOrderStatus('${o._id}', this.value)" style="padding:4px 8px;border-radius:6px;border:1px solid #ddd;font-size:0.8rem;font-family:inherit">
+          <option value="">Change...</option>
+          <option value="Pending">Pending</option>
+          <option value="Assigned">Assigned</option>
+          <option value="Out for Delivery">Out for Delivery</option>
+          <option value="Delivered">Delivered</option>
+          <option value="Cancelled">Cancelled</option>
+        </select>
+        <button class="btn btn-red btn-sm" style="margin-top:4px" onclick="adminDeleteOrder('${o._id}')">🗑️</button>
+      </td>
+    </tr>`).join('')}</tbody>
+  </table></div>`;
+}
+
+function filterAdminOrders() {
+  const status = document.getElementById('orderStatusFilter').value;
+  const filtered = status === 'all' ? allAdminOrders : allAdminOrders.filter(o => o.orderStatus === status);
+  renderAdminOrders(filtered);
+}
+
+async function adminChangeOrderStatus(id, status) {
+  if (!status) return;
+  try {
+    await apiCall(`/admin/orders/${id}/status`, 'PUT', { status });
+    toast(`Order status changed to ${status} ✅`);
+    loadAdminDashboard();
+  } catch (err) { toast(err.message, 'error'); }
+}
+
+async function adminDeleteOrder(id) {
+  if (!confirm('Delete this order permanently?')) return;
+  try {
+    await apiCall(`/admin/orders/${id}`, 'DELETE');
+    toast('Order deleted ✅');
+    loadAdminDashboard();
+  } catch (err) { toast(err.message, 'error'); }
+}
+
+// ---- ADMIN PRODUCTS ----
+function renderAdminProducts(products) {
+  const el = document.getElementById('adminProducts');
+  if (!products.length) { el.innerHTML = '<div class="empty-state"><div class="emoji">🌿</div><h3>No products</h3></div>'; return; }
+  el.innerHTML = `<div style="overflow-x:auto"><table>
+    <thead><tr><th>Product</th><th>Farmer</th><th>Category</th><th>Price</th><th>Stock</th><th>Action</th></tr></thead>
+    <tbody>${products.map(p => `<tr>
+      <td><strong>${p.name}</strong><br><small style="color:var(--text-muted)">${p.description?.slice(0,30) || ''}</small></td>
+      <td>${p.farmerName}</td>
+      <td>${getProductEmoji(p.category)} ${p.category}</td>
+      <td>₹${p.price}/${p.unit}</td>
+      <td><span class="status ${p.quantity > 0 ? 'status-delivered' : 'status-cancelled'}">${p.quantity} ${p.unit}</span></td>
+      <td><button class="btn btn-red btn-sm" onclick="adminDeleteProduct('${p._id}')">🗑️ Delete</button></td>
+    </tr>`).join('')}</tbody>
+  </table></div>`;
+}
+
+async function adminDeleteProduct(id) {
+  if (!confirm('Delete this product permanently?')) return;
+  try {
+    await apiCall(`/admin/products/${id}`, 'DELETE');
+    toast('Product deleted ✅');
+    loadAdminDashboard();
+  } catch (err) { toast(err.message, 'error'); }
+}
+
+// ---- ADMIN USERS ----
+function renderAdminUsers(users) {
+  const el = document.getElementById('adminUsers');
+  if (!users.length) { el.innerHTML = '<div class="empty-state"><div class="emoji">👥</div><h3>No users</h3></div>'; return; }
+  el.innerHTML = `<div style="overflow-x:auto"><table>
+    <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Phone</th><th>Status</th><th>Joined</th><th>Actions</th></tr></thead>
+    <tbody>${users.map(u => `<tr>
+      <td><strong>${u.name}</strong></td>
+      <td>${u.email}</td>
+      <td><span class="status status-${u.role==='admin'?'pending':u.role==='farmer'?'delivered':u.role==='delivery'?'assigned':'completed'}">${u.role}</span></td>
+      <td>${u.phone || '—'}</td>
+      <td><span class="status ${u.isBanned ? 'status-cancelled' : 'status-delivered'}">${u.isBanned ? '🚫 Banned' : '✅ Active'}</span></td>
+      <td>${new Date(u.createdAt).toLocaleDateString()}</td>
+      <td style="display:flex;gap:4px;flex-wrap:wrap">
+        <button class="btn btn-sm ${u.isBanned ? 'btn-green' : ''}" style="${!u.isBanned ? 'background:#f59e0b;color:white' : ''}" onclick="adminBanUser('${u._id}')">
+          ${u.isBanned ? '✅ Unban' : '🚫 Ban'}
+        </button>
+        ${u.role !== 'admin' ? `<button class="btn btn-red btn-sm" onclick="adminDeleteUser('${u._id}')">🗑️</button>` : ''}
+      </td>
+    </tr>`).join('')}</tbody>
+  </table></div>`;
+}
+
+function filterAdminUsers() {
+  const role = document.getElementById('userRoleFilter').value;
+  const filtered = role === 'all' ? allAdminUsers : allAdminUsers.filter(u => u.role === role);
+  renderAdminUsers(filtered);
+}
+
+async function adminBanUser(id) {
+  try {
+    await apiCall(`/admin/users/${id}/ban`, 'PUT');
+    toast('User status updated ✅');
+    loadAdminDashboard();
+  } catch (err) { toast(err.message, 'error'); }
+}
+
+async function adminDeleteUser(id) {
+  if (!confirm('Delete this user permanently?')) return;
+  try {
+    await apiCall(`/admin/users/${id}`, 'DELETE');
+    toast('User deleted ✅');
+    loadAdminDashboard();
+  } catch (err) { toast(err.message, 'error'); }
+}
+</script>
+</body>
+</html>
