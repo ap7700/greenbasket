@@ -243,6 +243,160 @@ tr:hover td { background: #fafafa; }
 .flex { display: flex; }
 .gap-1 { gap: 0.5rem; }
 .items-center { align-items: center; }
+
+/* LANGUAGE BUTTON */
+.lang-wrap { position: relative; display: inline-block; }
+.lang-btn {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--green-pale); border: none; border-radius: 50px;
+  padding: 6px 14px; cursor: pointer; font-family: inherit;
+  font-size: 0.85rem; font-weight: 600; color: var(--green);
+  transition: all 0.2s;
+}
+.lang-btn:hover { background: var(--green); color: white; }
+.lang-globe { font-size: 1rem; }
+.lang-menu {
+  display: none; position: absolute; top: 110%; right: 0;
+  background: white; border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.14);
+  overflow: hidden; min-width: 148px; z-index: 999;
+  border: 1px solid rgba(45,106,79,0.1);
+  animation: langSlide 0.2s ease;
+}
+@keyframes langSlide { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+.lang-menu.open { display: block; }
+.lang-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 16px; cursor: pointer; font-size: 0.88rem;
+  font-family: inherit; font-weight: 600; color: var(--text);
+  transition: background 0.15s; width: 100%; border: none; background: none; text-align: left;
+}
+.lang-item:hover { background: var(--green-pale); color: var(--green); }
+.lang-item.active { color: var(--green); background: var(--green-pale); }
+
+/* ============================================================
+   FLOATING CHATBOT
+   ============================================================ */
+#chatbot-bubble {
+  position: fixed; bottom: 28px; right: 28px; z-index: 9999;
+  width: 60px; height: 60px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--green) 0%, var(--green-light) 100%);
+  box-shadow: 0 6px 28px rgba(45,106,79,0.45);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; border: none; font-size: 1.6rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+  animation: chatPulse 2.5s ease-in-out infinite;
+}
+#chatbot-bubble:hover { transform: scale(1.1); box-shadow: 0 10px 36px rgba(45,106,79,0.55); animation: none; }
+@keyframes chatPulse {
+  0%,100% { box-shadow: 0 6px 28px rgba(45,106,79,0.45); }
+  50%      { box-shadow: 0 6px 28px rgba(45,106,79,0.45), 0 0 0 10px rgba(45,106,79,0.12); }
+}
+#chatbot-badge {
+  position: absolute; top: -4px; right: -4px;
+  background: var(--orange); color: white;
+  border-radius: 50%; width: 20px; height: 20px; font-size: 0.62rem;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; border: 2px solid white;
+}
+
+#chatbot-window {
+  position: fixed; bottom: 100px; right: 28px; z-index: 9998;
+  width: min(380px, calc(100vw - 40px));
+  height: min(540px, calc(100vh - 120px));
+  background: white; border-radius: 24px;
+  box-shadow: 0 16px 64px rgba(0,0,0,0.18);
+  display: flex; flex-direction: column; overflow: hidden;
+  transform: scale(0.85) translateY(20px); opacity: 0;
+  pointer-events: none; transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  transform-origin: bottom right;
+}
+#chatbot-window.open { transform: scale(1) translateY(0); opacity: 1; pointer-events: all; }
+
+.cb-header {
+  background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 100%);
+  color: white; padding: 18px 20px 14px;
+  display: flex; align-items: center; gap: 12px;
+}
+.cb-avatar {
+  width: 42px; height: 42px; background: rgba(255,255,255,0.2);
+  border-radius: 50%; display: flex; align-items: center;
+  justify-content: center; font-size: 1.4rem; flex-shrink: 0;
+}
+.cb-header-text { flex: 1; }
+.cb-header-text h4 { font-size: 1rem; font-weight: 700; margin: 0; }
+.cb-header-text p  { font-size: 0.75rem; opacity: 0.85; margin: 2px 0 0; }
+.cb-close-btn {
+  background: rgba(255,255,255,0.15); border: none; color: white;
+  border-radius: 50%; width: 32px; height: 32px; font-size: 1rem;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.cb-close-btn:hover { background: rgba(255,255,255,0.3); }
+
+.cb-messages {
+  flex: 1; overflow-y: auto; padding: 16px;
+  display: flex; flex-direction: column; gap: 10px;
+  background: #f8faf8;
+}
+.cb-messages::-webkit-scrollbar { width: 4px; }
+.cb-messages::-webkit-scrollbar-thumb { background: var(--green-pale); border-radius: 4px; }
+
+.cb-msg {
+  max-width: 82%; padding: 10px 14px;
+  border-radius: 18px; font-size: 0.88rem; line-height: 1.55;
+  word-break: break-word; animation: msgIn 0.25s ease;
+}
+@keyframes msgIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+.cb-msg.bot  { background: white; color: var(--text); border-radius: 18px 18px 18px 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); align-self: flex-start; }
+.cb-msg.user { background: var(--green); color: white; border-radius: 18px 18px 4px 18px; align-self: flex-end; }
+.cb-msg.sys  { background: #fff3cd; color: #856404; border-radius: 12px; align-self: center; text-align: center; font-size: 0.8rem; max-width: 95%; }
+
+.cb-typing { display: flex; gap: 5px; align-items: center; padding: 10px 14px; background: white; border-radius: 18px 18px 18px 4px; align-self: flex-start; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+.cb-typing span { width: 7px; height: 7px; background: var(--green-light); border-radius: 50%; animation: dot 1.2s ease-in-out infinite; }
+.cb-typing span:nth-child(2) { animation-delay: 0.2s; }
+.cb-typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes dot { 0%,60%,100% { transform:translateY(0); opacity:0.5; } 30% { transform:translateY(-6px); opacity:1; } }
+
+.cb-quick-btns { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 16px 8px; }
+.cb-quick {
+  background: var(--green-pale); border: none; color: var(--green);
+  border-radius: 50px; padding: 6px 14px; font-size: 0.78rem;
+  font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.2s;
+}
+.cb-quick:hover { background: var(--green); color: white; }
+
+.cb-footer {
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 14px; border-top: 1px solid var(--green-pale); background: white;
+}
+.cb-input {
+  flex: 1; border: 2px solid var(--green-pale); border-radius: 50px;
+  padding: 10px 16px; font-size: 0.88rem; font-family: inherit;
+  outline: none; transition: border-color 0.2s;
+}
+.cb-input:focus { border-color: var(--green); }
+.cb-send {
+  width: 40px; height: 40px; background: var(--green); border: none;
+  color: white; border-radius: 50%; font-size: 1.1rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: background 0.2s;
+}
+.cb-send:hover { background: var(--green-mid); }
+
+.cb-call-card {
+  background: linear-gradient(135deg, #fff8f6, #ffe5de);
+  border: 1.5px solid #f4a261; border-radius: 14px;
+  padding: 12px 14px; font-size: 0.83rem; line-height: 1.5;
+}
+.cb-call-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--orange); color: white; border: none;
+  border-radius: 50px; padding: 8px 18px; font-size: 0.85rem;
+  font-weight: 700; cursor: pointer; font-family: inherit;
+  margin-top: 10px; text-decoration: none; transition: background 0.2s;
+}
+.cb-call-btn:hover { background: var(--orange-light); }
 </style>
 </head>
 <body>
@@ -251,9 +405,20 @@ tr:hover td { background: #fafafa; }
 <nav>
   <div class="logo" onclick="showPage('home')"><span>🌿</span> Green Basket</div>
   <div class="nav-links" id="navLinks">
-    <a onclick="showPage('products')">🛍️ <span class="label">Shop</span></a>
-    <a onclick="showPage('auth')" id="loginBtn">Login</a>
-    <button class="btn-nav" onclick="showPage('auth')" id="registerBtn">Register</button>
+    <a onclick="showPage('products')">🛍️ <span class="label" data-i18n="nav_shop">Shop</span></a>
+    <div class="lang-wrap">
+      <button class="lang-btn" onclick="toggleLangMenu()" id="langToggleBtn">
+        <span class="lang-globe">🌐</span>
+        <span id="langLabel">EN</span> ▾
+      </button>
+      <div class="lang-menu" id="langMenu">
+        <button class="lang-item active" id="li-en" onclick="setLang('en')">🇬🇧 English</button>
+        <button class="lang-item" id="li-hi" onclick="setLang('hi')">🇮🇳 हिंदी</button>
+        <button class="lang-item" id="li-od" onclick="setLang('od')">🏛️ ଓଡ଼ିଆ</button>
+      </div>
+    </div>
+    <a onclick="showPage('auth')" id="loginBtn" data-i18n="nav_login">Login</a>
+    <button class="btn-nav" onclick="showPage('auth')" id="registerBtn" data-i18n="nav_register">Register</button>
   </div>
 </nav>
 
@@ -298,8 +463,8 @@ tr:hover td { background: #fafafa; }
 <div id="page-auth" class="page">
   <div class="auth-container">
     <div class="auth-card" id="loginCard">
-      <h2>Welcome Back 👋</h2>
-      <p class="auth-subtitle">Sign in to your Green Basket account</p>
+      <h2 id="loginTitle">Welcome Back 👋</h2>
+      <p class="auth-subtitle" id="loginSub">Sign in to your Green Basket account</p>
       <div class="form-group">
         <label>Email Address</label>
         <input type="email" id="loginEmail" placeholder="you@example.com">
@@ -320,8 +485,8 @@ tr:hover td { background: #fafafa; }
     </div>
 
     <div class="auth-card" id="registerCard" style="display:none">
-      <h2>Create Account 🌱</h2>
-      <p class="auth-subtitle">Join Green Basket today</p>
+      <h2 id="regTitle">Create Account 🌱</h2>
+      <p class="auth-subtitle" id="regSub">Join Green Basket today</p>
       <div style="margin-bottom:1rem;">
         <label style="font-size:0.9rem;font-weight:500;display:block;margin-bottom:0.5rem;">I am a...</label>
         <div class="role-selector">
@@ -356,12 +521,12 @@ tr:hover td { background: #fafafa; }
   <div class="section-header">
     <h2>Fresh Produce</h2>
     <div class="filters" id="categoryFilters">
-      <button class="filter-btn active" onclick="setCategoryFilter('all', this)">All</button>
-      <button class="filter-btn" onclick="setCategoryFilter('vegetables', this)">🥦 Vegetables</button>
-      <button class="filter-btn" onclick="setCategoryFilter('fruits', this)">🍎 Fruits</button>
-      <button class="filter-btn" onclick="setCategoryFilter('grains', this)">🌾 Grains</button>
-      <button class="filter-btn" onclick="setCategoryFilter('dairy', this)">🥛 Dairy</button>
-      <button class="filter-btn" onclick="setCategoryFilter('herbs', this)">🌿 Herbs</button>
+      <button class="filter-btn active" onclick="setCategoryFilter('all', this)" id="fAll">All</button>
+      <button class="filter-btn" onclick="setCategoryFilter('vegetables', this)" id="fVeg">🥦 Vegetables</button>
+      <button class="filter-btn" onclick="setCategoryFilter('fruits', this)" id="fFru">🍎 Fruits</button>
+      <button class="filter-btn" onclick="setCategoryFilter('grains', this)" id="fGra">🌾 Grains</button>
+      <button class="filter-btn" onclick="setCategoryFilter('dairy', this)" id="fDai">🥛 Dairy</button>
+      <button class="filter-btn" onclick="setCategoryFilter('herbs', this)" id="fHer">🌿 Herbs</button>
     </div>
   </div>
   <div class="products-grid" id="productsGrid">
@@ -557,6 +722,7 @@ tr:hover td { background: #fafafa; }
         </div>
       </div>
     </div>
+
   </div>
 </div>
 
@@ -649,7 +815,7 @@ function updateNav() {
     `;
   } else {
     links.innerHTML = `
-      <a onclick="showPage('products')">🛍️ <span class="label">Shop</span></a>
+      <a onclick="showPage('products')">🛍️ <span class="label">Shop</span></a><div style="position:relative;display:inline-flex;align-items:center"><button onclick="var m=document.getElementById('lm');m.style.display=m.style.display==='block'?'none':'block'" style="background:#d8f3dc;border:2px solid #52b788;padding:6px 14px;border-radius:50px;cursor:pointer;font-size:0.85rem;font-weight:600;color:#2d6a4f;display:flex;align-items:center;gap:4px">🌐 <span id="currentLang">EN</span> ▾</button><div id="lm" style="display:none;position:absolute;top:120%;left:0;background:white;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.15);z-index:99999;min-width:140px;border:1px solid #e5e7eb"><div onclick="setLang('en')" style="padding:12px 16px;cursor:pointer;font-size:0.9rem;border-bottom:1px solid #f0f0f0">🇬🇧 English</div><div onclick="setLang('hi')" style="padding:12px 16px;cursor:pointer;font-size:0.9rem;border-bottom:1px solid #f0f0f0">🇮🇳 हिंदी</div><div onclick="setLang('od')" style="padding:12px 16px;cursor:pointer;font-size:0.9rem">🏛️ ଓଡ଼ିଆ</div></div></div>
       <a onclick="showPage('auth')" id="loginBtn">Login</a>
       <button class="btn-nav" onclick="showPage('auth')" id="registerBtn">Register</button>
     `;
@@ -1219,6 +1385,571 @@ if (currentUser) {
                    currentUser.role === 'delivery' ? 'delivery' : null;
   // Don't auto-redirect, stay on home
 }
+
+// ============================================================
+//  LANGUAGE SYSTEM — English / हिंदी / ଓଡ଼ିଆ
+// ============================================================
+const TRANSLATIONS = {
+  en: {
+    nav_shop: 'Shop', nav_login: 'Login', nav_register: 'Register',
+    nav_dashboard: 'Dashboard', nav_logout: 'Logout', nav_cart: 'Cart',
+    hero_title: '🌱 Farm Fresh,<br>Delivered to Your Door',
+    hero_sub: 'Buy directly from local farmers. Fresh produce, fair prices, and lightning-fast delivery.',
+    hero_btn1: '🛍️ Shop Now', hero_btn2: '🌾 Join as Farmer',
+    feat1_title: 'Direct from Farms', feat1_desc: 'No middlemen. Buy directly from verified local farmers for the freshest produce.',
+    feat2_title: 'Fast Delivery', feat2_desc: 'Our delivery partners ensure your fresh produce reaches you the same day.',
+    feat3_title: 'Cash on Delivery', feat3_desc: 'Pay only when you receive your order. No online payment required.',
+    feat4_title: '100% Organic', feat4_desc: 'Naturally grown produce without harmful pesticides or chemicals.',
+    fresh_produce: 'Fresh Produce',
+    search_ph: '🔍 Search fresh produce...',
+    cat_all: 'All', cat_veg: '🥦 Vegetables', cat_fruit: '🍎 Fruits',
+    cat_grain: '🌾 Grains', cat_dairy: '🥛 Dairy', cat_herbs: '🌿 Herbs',
+    cart_title: 'Your Cart 🛒',
+    cart_empty: 'Your cart is empty',
+    cart_empty_sub: 'Browse fresh produce and add items to cart',
+    cart_shop_btn: 'Shop Now',
+    subtotal: 'Subtotal', delivery_lbl: 'Delivery', payment_lbl: 'Payment',
+    total_lbl: 'Total', cod_lbl: '💵 Cash on Delivery',
+    checkout_btn: 'Proceed to Checkout →',
+    chk_title: 'Checkout 📦',
+    chk_details: 'Delivery Details',
+    chk_cod: '💵 Payment: Cash on Delivery (COD)',
+    chk_name: 'Full Name', chk_phone: 'Phone Number',
+    chk_address: 'Delivery Address', chk_note: 'Order Notes (Optional)',
+    chk_place: '✅ Place Order (COD)',
+    chk_sum: 'Order Summary',
+    chk_auto: '✅ A delivery partner will be auto-assigned to your order',
+    login_title: 'Welcome Back 👋',
+    login_sub: 'Sign in to your Green Basket account',
+    lbl_email: 'Email Address', lbl_pass: 'Password',
+    btn_signin: 'Sign In →',
+    no_acc: "Don't have an account?", reg_link: 'Register here',
+    demo_title: 'Demo Accounts (pw: password123)',
+    reg_title: 'Create Account 🌱',
+    reg_sub: 'Join Green Basket today',
+    i_am: 'I am a...',
+    role_customer: 'Customer', role_farmer: 'Farmer', role_delivery: 'Delivery',
+    lbl_name: 'Full Name', lbl_phone: 'Phone Number', lbl_address: 'Address',
+    btn_create: 'Create Account →',
+    have_acc: 'Already have an account?', login_link: 'Login here',
+    farmer_dash: 'Farmer Dashboard 🌾',
+    farmer_welcome: 'Manage your products and track orders',
+    my_products: 'My Products', add_product: '+ Add Product',
+    orders_received: 'Orders Received',
+    cust_dash: 'My Orders 📦',
+    del_dash: 'Delivery Dashboard 🚚',
+    del_welcome: 'Your assigned deliveries',
+    admin_dash: 'Admin Dashboard 🔐',
+    out_del_btn: '🚚 Out for Delivery',
+    mark_del_btn: '✅ Mark Delivered',
+    not_del_btn: '❌ Not Delivered',
+    cancel_btn: 'Cancel Order',
+    no_orders: 'No orders yet',
+    no_prods: 'No products yet',
+    start_shop: 'Start shopping for fresh produce!',
+    shop_now: 'Shop Now',
+    add_first: 'Add your first product to start selling',
+    assigning: '🔄 Assigning delivery...',
+    no_deliveries: 'No deliveries assigned yet',
+    wait_orders: 'Wait for orders to be assigned',
+  },
+  hi: {
+    nav_shop: 'दुकान', nav_login: 'लॉगिन', nav_register: 'रजिस्टर',
+    nav_dashboard: 'डैशबोर्ड', nav_logout: 'लॉगआउट', nav_cart: 'कार्ट',
+    hero_title: '🌱 ताज़ा खेत,<br>आपके दरवाज़े तक',
+    hero_sub: 'स्थानीय किसानों से सीधे खरीदें। ताज़ा उपज, उचित कीमतें और तेज़ डिलीवरी।',
+    hero_btn1: '🛍️ अभी खरीदें', hero_btn2: '🌾 किसान बनें',
+    feat1_title: 'सीधे खेत से', feat1_desc: 'बिना बिचौलियों के। सत्यापित किसानों से सीधे खरीदें।',
+    feat2_title: 'तेज़ डिलीवरी', feat2_desc: 'हमारे डिलीवरी पार्टनर उसी दिन पहुंचाते हैं।',
+    feat3_title: 'कैश ऑन डिलीवरी', feat3_desc: 'ऑर्डर मिलने पर ही भुगतान करें। कोई ऑनलाइन पेमेंट नहीं।',
+    feat4_title: '100% जैविक', feat4_desc: 'बिना हानिकारक कीटनाशकों के प्राकृतिक उपज।',
+    fresh_produce: 'ताज़ा उपज',
+    search_ph: '🔍 ताज़ी उपज खोजें...',
+    cat_all: 'सभी', cat_veg: '🥦 सब्जियां', cat_fruit: '🍎 फल',
+    cat_grain: '🌾 अनाज', cat_dairy: '🥛 डेयरी', cat_herbs: '🌿 जड़ी-बूटी',
+    cart_title: 'आपकी कार्ट 🛒',
+    cart_empty: 'आपकी कार्ट खाली है',
+    cart_empty_sub: 'ताज़ी उपज देखें और कार्ट में जोड़ें',
+    cart_shop_btn: 'अभी खरीदें',
+    subtotal: 'उप-कुल', delivery_lbl: 'डिलीवरी', payment_lbl: 'भुगतान',
+    total_lbl: 'कुल', cod_lbl: '💵 कैश ऑन डिलीवरी',
+    checkout_btn: 'चेकआउट करें →',
+    chk_title: 'चेकआउट 📦',
+    chk_details: 'डिलीवरी विवरण',
+    chk_cod: '💵 भुगतान: कैश ऑन डिलीवरी (COD)',
+    chk_name: 'पूरा नाम', chk_phone: 'फ़ोन नंबर',
+    chk_address: 'डिलीवरी पता', chk_note: 'ऑर्डर नोट्स (वैकल्पिक)',
+    chk_place: '✅ ऑर्डर दें (COD)',
+    chk_sum: 'ऑर्डर सारांश',
+    chk_auto: '✅ डिलीवरी पार्टनर अपने आप असाइन होगा',
+    login_title: 'वापस आपका स्वागत है 👋',
+    login_sub: 'अपने ग्रीन बास्केट खाते में साइन इन करें',
+    lbl_email: 'ईमेल पता', lbl_pass: 'पासवर्ड',
+    btn_signin: 'साइन इन करें →',
+    no_acc: 'खाता नहीं है?', reg_link: 'यहाँ रजिस्टर करें',
+    demo_title: 'डेमो अकाउंट (pw: password123)',
+    reg_title: 'खाता बनाएं 🌱',
+    reg_sub: 'आज ग्रीन बास्केट से जुड़ें',
+    i_am: 'मैं हूँ...',
+    role_customer: 'ग्राहक', role_farmer: 'किसान', role_delivery: 'डिलीवरी',
+    lbl_name: 'पूरा नाम', lbl_phone: 'फ़ोन नंबर', lbl_address: 'पता',
+    btn_create: 'खाता बनाएं →',
+    have_acc: 'पहले से खाता है?', login_link: 'यहाँ लॉगिन करें',
+    farmer_dash: 'किसान डैशबोर्ड 🌾',
+    farmer_welcome: 'अपने उत्पाद प्रबंधित करें और ऑर्डर ट्रैक करें',
+    my_products: 'मेरे उत्पाद', add_product: '+ उत्पाद जोड़ें',
+    orders_received: 'प्राप्त ऑर्डर',
+    cust_dash: 'मेरे ऑर्डर 📦',
+    del_dash: 'डिलीवरी डैशबोर्ड 🚚',
+    del_welcome: 'आपकी असाइन डिलीवरी',
+    admin_dash: 'एडमिन डैशबोर्ड 🔐',
+    out_del_btn: '🚚 डिलीवरी पर जाएं',
+    mark_del_btn: '✅ डिलीवर मार्क करें',
+    not_del_btn: '❌ डिलीवर नहीं हुआ',
+    cancel_btn: 'ऑर्डर रद्द करें',
+    no_orders: 'अभी कोई ऑर्डर नहीं',
+    no_prods: 'अभी कोई उत्पाद नहीं',
+    start_shop: 'ताज़ी उपज खरीदना शुरू करें!',
+    shop_now: 'अभी खरीदें',
+    add_first: 'बेचना शुरू करने के लिए पहला उत्पाद जोड़ें',
+    assigning: '🔄 डिलीवरी असाइन हो रही है...',
+    no_deliveries: 'अभी कोई डिलीवरी नहीं',
+    wait_orders: 'ऑर्डर असाइन होने का इंतज़ार करें',
+  },
+  od: {
+    nav_shop: 'ଦୋକାନ', nav_login: 'ଲଗଇନ', nav_register: 'ପଞ୍ଜୀକରଣ',
+    nav_dashboard: 'ଡ୍ୟାସବୋର୍ଡ', nav_logout: 'ଲଗଆଉଟ', nav_cart: 'କାର୍ଟ',
+    hero_title: '🌱 ତାଜା ଖେତ,<br>ଆପଣଙ୍କ ଦ୍ୱାରରେ',
+    hero_sub: 'ସ୍ଥାନୀୟ କୃଷକଙ୍କ ଠାରୁ ସିଧା କିଣନ୍ତୁ। ତାଜା ଉତ୍ପାଦ, ଉଚିତ ମୂଲ୍ୟ ଏବଂ ଦ୍ରୁତ ଡେଲିଭରି।',
+    hero_btn1: '🛍️ ଏବେ କିଣନ୍ତୁ', hero_btn2: '🌾 କୃଷକ ହୁଅନ୍ତୁ',
+    feat1_title: 'ସିଧା ଖେତରୁ', feat1_desc: 'କୌଣସି ମଧ୍ୟସ୍ଥି ନାହିଁ। ସ୍ଥାନୀୟ କୃଷକଙ୍କ ଠାରୁ ସିଧା କିଣନ୍ତୁ।',
+    feat2_title: 'ଦ୍ରୁତ ଡେଲିଭରି', feat2_desc: 'ଆମର ଡେଲିଭରି ପାର୍ଟନର ସେହି ଦିନ ପହଞ୍ଚାଇବେ।',
+    feat3_title: 'ଡେଲିଭରିରେ ନଗଦ', feat3_desc: 'ଅର୍ଡର ମିଳିଲେ ଟଙ୍କା ଦିଅନ୍ତୁ। ଅନ୍ଲାଇନ ପେମେଣ୍ଟ ଦରକାର ନାହିଁ।',
+    feat4_title: '100% ଜୈବିକ', feat4_desc: 'ହାନିକାରକ କୀଟନାଶକ ବିନା ପ୍ରାକୃତିକ ଉତ୍ପାଦ।',
+    fresh_produce: 'ତାଜା ଉତ୍ପାଦ',
+    search_ph: '🔍 ତାଜା ଉତ୍ପାଦ ଖୋଜନ୍ତୁ...',
+    cat_all: 'ସବୁ', cat_veg: '🥦 ପନିପରିବା', cat_fruit: '🍎 ଫଳ',
+    cat_grain: '🌾 ଶସ୍ୟ', cat_dairy: '🥛 ଡେୟାରି', cat_herbs: '🌿 ଔଷଧ',
+    cart_title: 'ଆପଣଙ୍କ କାର୍ଟ 🛒',
+    cart_empty: 'ଆପଣଙ୍କ କାର୍ଟ ଖାଲି',
+    cart_empty_sub: 'ତାଜା ଉତ୍ପାଦ ଦେଖନ୍ତୁ ଏବଂ କାର୍ଟରେ ଯୋଡ଼ନ୍ତୁ',
+    cart_shop_btn: 'ଏବେ କିଣନ୍ତୁ',
+    subtotal: 'ଉପ-ମୋଟ', delivery_lbl: 'ଡେଲିଭରି', payment_lbl: 'ପେମେଣ୍ଟ',
+    total_lbl: 'ମୋଟ', cod_lbl: '💵 ଡେଲିଭରିରେ ନଗଦ',
+    checkout_btn: 'ଚେକଆଉଟ →',
+    chk_title: 'ଚେକଆଉଟ 📦',
+    chk_details: 'ଡେଲିଭରି ବିବରଣୀ',
+    chk_cod: '💵 ପେମେଣ୍ଟ: ଡେଲିଭରିରେ ନଗଦ (COD)',
+    chk_name: 'ପୂରା ନାମ', chk_phone: 'ଫୋନ ନମ୍ବର',
+    chk_address: 'ଡେଲିଭରି ଠିକଣା', chk_note: 'ଅର୍ଡର ନୋଟ (ଐଚ୍ଛିକ)',
+    chk_place: '✅ ଅର୍ଡର ଦିଅନ୍ତୁ (COD)',
+    chk_sum: 'ଅର୍ଡର ସାରାଂଶ',
+    chk_auto: '✅ ଡେଲିଭରି ପାର୍ଟନର ସ୍ୱୟଂଚାଳିତ ଭାବେ ଅର୍ପଣ ହେବ',
+    login_title: 'ସ୍ୱାଗତ 👋',
+    login_sub: 'ଆପଣଙ୍କ ଗ୍ରୀନ ବାସ୍କେଟ ଆକାଉଣ୍ଟରେ ସାଇନ ଇନ',
+    lbl_email: 'ଇମେଲ ଠିକଣା', lbl_pass: 'ପାସୱାର୍ଡ',
+    btn_signin: 'ସାଇନ ଇନ →',
+    no_acc: 'ଆକାଉଣ୍ଟ ନାହିଁ?', reg_link: 'ଏଠାରେ ପଞ୍ଜୀକରଣ',
+    demo_title: 'ଡେମୋ ଆକାଉଣ୍ଟ (pw: password123)',
+    reg_title: 'ଆକାଉଣ୍ଟ ବନାନ୍ତୁ 🌱',
+    reg_sub: 'ଆଜି ଗ୍ରୀନ ବାସ୍କେଟ ଯୋଗ ଦିଅନ୍ତୁ',
+    i_am: 'ମୁଁ...',
+    role_customer: 'ଗ୍ରାହକ', role_farmer: 'କୃଷକ', role_delivery: 'ଡେଲିଭରି',
+    lbl_name: 'ପୂରା ନାମ', lbl_phone: 'ଫୋନ ନମ୍ବର', lbl_address: 'ଠିକଣା',
+    btn_create: 'ଆକାଉଣ୍ଟ ବନାନ୍ତୁ →',
+    have_acc: 'ଆଗରୁ ଆକାଉଣ୍ଟ ଅଛି?', login_link: 'ଏଠାରେ ଲଗଇନ',
+    farmer_dash: 'କୃଷକ ଡ୍ୟାସବୋର୍ଡ 🌾',
+    farmer_welcome: 'ଆପଣଙ୍କ ଉତ୍ପାଦ ପରିଚାଳନା କରନ୍ତୁ',
+    my_products: 'ମୋର ଉତ୍ପାଦ', add_product: '+ ଉତ୍ପାଦ ଯୋଡ଼ନ୍ତୁ',
+    orders_received: 'ପ୍ରାପ୍ତ ଅର୍ଡର',
+    cust_dash: 'ମୋର ଅର୍ଡର 📦',
+    del_dash: 'ଡେଲିଭରି ଡ୍ୟାସବୋର୍ଡ 🚚',
+    del_welcome: 'ଆପଣଙ୍କ ଅର୍ପିତ ଡେଲିଭରି',
+    admin_dash: 'ଆଡମିନ ଡ୍ୟାସବୋର୍ଡ 🔐',
+    out_del_btn: '🚚 ଡେଲିଭରିରେ ଯାଅ',
+    mark_del_btn: '✅ ଡେଲିଭର ମାର୍କ କରନ୍ତୁ',
+    not_del_btn: '❌ ଡେଲିଭର ହୋଇ ନାହିଁ',
+    cancel_btn: 'ଅର୍ଡର ବାତିଲ',
+    no_orders: 'ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ଅର୍ଡର ନାହିଁ',
+    no_prods: 'ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ଉତ୍ପାଦ ନାହିଁ',
+    start_shop: 'ତାଜା ଉତ୍ପାଦ କିଣିବା ଆରମ୍ଭ କରନ୍ତୁ!',
+    shop_now: 'ଏବେ କିଣନ୍ତୁ',
+    add_first: 'ବିକ୍ରୟ ଆରମ୍ଭ କରିବାକୁ ପ୍ରଥମ ଉତ୍ପାଦ ଯୋଡ଼ନ୍ତୁ',
+    assigning: '🔄 ଡେଲିଭରି ଅର୍ପଣ ହେଉଛି...',
+    no_deliveries: 'ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ଡେଲିଭରି ନାହିଁ',
+    wait_orders: 'ଅର୍ଡର ଅର୍ପଣ ହେବା ପର୍ଯ୍ୟନ୍ତ ଅପେକ୍ଷା',
+  }
+};
+
+let currentLang = localStorage.getItem('gb_lang') || 'en';
+
+function tr(key) {
+  return TRANSLATIONS[currentLang]?.[key] || TRANSLATIONS.en[key] || key;
+}
+
+// function toggleLangMenu() {
+//   document.getElementById('langMenu').classList.toggle('open');
+// }
+
+// function setLang(lang) {
+//   currentLang = lang;
+//   localStorage.setItem('gb_lang', lang);
+//   // Update button label
+//   const labels = { en: 'EN', hi: 'हि', od: 'ଓ' };
+//   document.getElementById('langLabel').textContent = labels[lang];
+//   // Update active state
+//   ['en','hi','od'].forEach(l => {
+//     const el = document.getElementById('li-' + l);
+//     if (el) el.classList.toggle('active', l === lang);
+//   });
+//   document.getElementById('langMenu').classList.remove('open');
+//   applyLanguage();
+//   if (typeof updateChatbotLang === 'function') updateChatbotLang(lang);
+//   toast(`${ lang==='en'?'🇬🇧 English':lang==='hi'?'🇮🇳 हिंदी':'🏛️ ଓଡ଼ିଆ' } selected`);
+// }
+
+function applyLanguage() {
+  // HOME PAGE
+  const heroH1 = document.querySelector('.hero h1');
+  const heroP = document.querySelector('.hero p');
+  const heroBtns = document.querySelectorAll('.hero-btns .btn');
+  if (heroH1) heroH1.innerHTML = tr('hero_title');
+  if (heroP) heroP.textContent = tr('hero_sub');
+  if (heroBtns[0]) heroBtns[0].textContent = tr('hero_btn1');
+  if (heroBtns[1]) heroBtns[1].textContent = tr('hero_btn2');
+
+  // Feature cards
+  const featTitles = document.querySelectorAll('.feature-card h3');
+  const featDescs = document.querySelectorAll('.feature-card p');
+  const fkeys = ['feat1','feat2','feat3','feat4'];
+  fkeys.forEach((k,i) => {
+    if (featTitles[i]) featTitles[i].textContent = tr(k+'_title');
+    if (featDescs[i]) featDescs[i].textContent = tr(k+'_desc');
+  });
+
+  // Products page
+  const freshTitle = document.querySelector('#page-products .section-header h2');
+  if (freshTitle) freshTitle.textContent = tr('fresh_produce');
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) searchInput.placeholder = tr('search_ph');
+
+  // Category filters
+  const filterIds = ['fAll','fVeg','fFru','fGra','fDai','fHer'];
+  const filterKeys = ['cat_all','cat_veg','cat_fruit','cat_grain','cat_dairy','cat_herbs'];
+  filterIds.forEach((id,i) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = tr(filterKeys[i]);
+  });
+
+  // Cart page
+  const cartH2 = document.querySelector('#page-cart h2');
+  if (cartH2) cartH2.textContent = tr('cart_title');
+
+  // Checkout page
+  const chkH2 = document.querySelector('#page-checkout h2');
+  if (chkH2) chkH2.textContent = tr('chk_title');
+
+  // Auth labels
+  applyAuthLang();
+
+  // Dashboard headers
+  applyDashLang();
+
+  // Re-render dynamic content
+  if (document.getElementById('page-cart').classList.contains('active')) renderCart();
+  if (document.getElementById('page-checkout').classList.contains('active')) renderCheckout();
+
+  // Update nav
+  updateNav();
+}
+
+function applyAuthLang() {
+  const ids = {
+    loginTitle: 'login_title', loginSub: 'login_sub',
+    regTitle: 'reg_title', regSub: 'reg_sub'
+  };
+  Object.entries(ids).forEach(([id, key]) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = tr(key);
+  });
+  // Labels
+  const loginLabels = document.querySelectorAll('#loginCard .form-group label');
+  if (loginLabels[0]) loginLabels[0].textContent = tr('lbl_email');
+  if (loginLabels[1]) loginLabels[1].textContent = tr('lbl_pass');
+  const loginBtn = document.querySelector('#loginCard .btn-green');
+  if (loginBtn) loginBtn.textContent = tr('btn_signin');
+  const regLabels = document.querySelectorAll('#registerCard .form-group label');
+  if (regLabels[0]) regLabels[0].textContent = tr('lbl_name');
+  if (regLabels[1]) regLabels[1].textContent = tr('lbl_email');
+  if (regLabels[2]) regLabels[2].textContent = tr('lbl_pass');
+  if (regLabels[3]) regLabels[3].textContent = tr('lbl_phone');
+  if (regLabels[4]) regLabels[4].textContent = tr('lbl_address');
+}
+
+function applyDashLang() {
+  const dh = document.querySelector('#page-farmer .dashboard-header h2');
+  if (dh) dh.textContent = tr('farmer_dash');
+  const ch = document.querySelector('#page-customer .dashboard-header h2');
+  if (ch) ch.textContent = tr('cust_dash');
+  const dlh = document.querySelector('#page-delivery .dashboard-header h2');
+  if (dlh) dlh.textContent = tr('del_dash');
+  const adh = document.querySelector('#page-admin .dashboard-header h2');
+  if (adh) adh.textContent = tr('admin_dash');
+}
+
+// Close lang menu on outside click
+document.addEventListener('click', function(e) {
+  const menu = document.getElementById('langMenu');
+  const btn = document.getElementById('langToggleBtn');
+  if (menu && btn && !menu.contains(e.target) && !btn.contains(e.target)) {
+    menu.classList.remove('open');
+  }
+});
+
+// Apply on page load
+window.addEventListener('load', () => {
+  const saved = localStorage.getItem('gb_lang');
+  if (saved && saved !== 'en') {
+    setTimeout(() => setLang(saved), 100);
+  } else {
+    const labels = { en:'EN', hi:'हि', od:'ଓ' };
+    const ll = document.getElementById('langLabel');
+    if (ll) ll.textContent = labels[currentLang];
+  }
+});
+
+
+// ============================================================
+//  FLOATING CHATBOT
+// ============================================================
+const CALL_NUMBER = '7853008986';
+const FALLBACK_THRESHOLD = 2; // consecutive failures before showing call option
+
+const CB_STRINGS = {
+  en: {
+    greeting: "Hi! 👋 I'm Basket Bot. How can I help you today?",
+    placeholder: "Ask me anything...",
+    quick: ["🛒 How to order?", "🚚 Delivery info", "💰 Pricing", "📞 Talk to agent"],
+    call_title: "Need more help?",
+    call_desc: "Our support team is ready to assist you. Click below to call us directly!",
+    call_btn: "📞 Call Now",
+    cant_handle: "I'm having trouble answering this. Let me connect you with our support team:",
+    online: "Online",
+  },
+  hi: {
+    greeting: "नमस्ते! 👋 मैं Basket Bot हूँ। आज मैं आपकी कैसे मदद करूँ?",
+    placeholder: "कुछ भी पूछें...",
+    quick: ["🛒 ऑर्डर कैसे करें?", "🚚 डिलीवरी जानकारी", "💰 मूल्य", "📞 एजेंट से बात करें"],
+    call_title: "और मदद चाहिए?",
+    call_desc: "हमारी सपोर्ट टीम मदद के लिए तैयार है। नीचे क्लिक करके सीधे कॉल करें!",
+    call_btn: "📞 अभी कॉल करें",
+    cant_handle: "मुझे इस सवाल में परेशानी हो रही है। हमारी सपोर्ट टीम से जुड़ें:",
+    online: "ऑनलाइन",
+  },
+  od: {
+    greeting: "ନମସ୍କାର! 👋 ମୁଁ Basket Bot। ଆଜି ମୁଁ ଆପଣଙ୍କୁ କିପରି ସାହାଯ୍ୟ କରିବି?",
+    placeholder: "ଯେକୌଣସି ପ୍ରଶ୍ନ ପଚାରନ୍ତୁ...",
+    quick: ["🛒 ଅର୍ଡର କିପରି?", "🚚 ଡେଲିଭରି ତଥ୍ୟ", "💰 ମୂଲ୍ୟ", "📞 ଏଜେଣ୍ଟ ସହ କଥା"],
+    call_title: "ଅଧିକ ସାହାଯ୍ୟ ଦରକାର?",
+    call_desc: "ଆମ ସପୋର୍ଟ ଟିମ ପ୍ରସ୍ତୁତ। ସିଧା କଲ କରିବାକୁ ନିଚ କ୍ଲିକ କରନ୍ତୁ!",
+    call_btn: "📞 ଏବେ କଲ କରନ୍ତୁ",
+    cant_handle: "ଏହି ପ୍ରଶ୍ନ ସମ୍ଭାଳିବାରେ ସମସ୍ୟା ହେଉଛି। ଆମ ସପୋର୍ଟ ଟିମ ସହ ସଂଯୋଗ ହୁଅନ୍ତୁ:",
+    online: "ଅନଲାଇନ",
+  }
+};
+
+let chatOpen = false;
+let cbMessages = [];
+let failCount = 0;
+
+function getCBStr(key) {
+  const lang = currentLang || 'en';
+  return (CB_STRINGS[lang] || CB_STRINGS.en)[key];
+}
+
+function toggleChatbot() {
+  chatOpen = !chatOpen;
+  const win = document.getElementById('chatbot-window');
+  const badge = document.getElementById('chatbot-badge');
+  win.classList.toggle('open', chatOpen);
+  if (chatOpen) { badge.style.display='none'; document.getElementById('cb-input').focus(); }
+}
+
+function closeChatbot() {
+  chatOpen = false;
+  document.getElementById('chatbot-window').classList.remove('open');
+}
+
+function cbAddMsg(text, type='bot', isHTML=false) {
+  const msgs = document.getElementById('cb-messages');
+  const div = document.createElement('div');
+  div.className = 'cb-msg ' + type;
+  if (isHTML) div.innerHTML = text;
+  else div.textContent = text;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return div;
+}
+
+function cbShowTyping() {
+  const msgs = document.getElementById('cb-messages');
+  const div = document.createElement('div');
+  div.className = 'cb-typing'; div.id = 'cb-typing';
+  div.innerHTML = '<span></span><span></span><span></span>';
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function cbHideTyping() {
+  const t = document.getElementById('cb-typing');
+  if (t) t.remove();
+}
+
+function cbShowCallCard() {
+  const lang = currentLang || 'en';
+  const s = CB_STRINGS[lang] || CB_STRINGS.en;
+  const html = `
+    <div class="cb-call-card">
+      <strong>${s.call_title}</strong><br>
+      ${s.call_desc}
+      <br>
+      <a class="cb-call-btn" href="tel:${CALL_NUMBER}">
+        ${s.call_btn}: ${CALL_NUMBER}
+      </a>
+    </div>`;
+  cbAddMsg(html, 'bot', true);
+}
+
+function cbQuick(text) {
+  if (text.includes('📞') || text.toLowerCase().includes('agent') || text.includes('एजेंट') || text.includes('ଏଜେଣ୍ଟ')) {
+    cbAddMsg(text, 'user');
+    cbShowCallCard();
+    return;
+  }
+  document.getElementById('cb-input').value = text;
+  cbSend();
+}
+
+async function cbSend() {
+  const input = document.getElementById('cb-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+
+  cbAddMsg(text, 'user');
+  cbMessages.push({ role: 'user', content: text });
+
+  // Hide quick buttons after first message
+  const qb = document.getElementById('cb-quick-btns');
+  if (qb) qb.style.display = 'none';
+
+  cbShowTyping();
+
+  const sysPrompt = `You are Basket Bot, a friendly customer support assistant for Green Basket — an online farm-fresh grocery delivery platform that connects local farmers with customers. Answer questions about: ordering process, products (vegetables, fruits, grains, dairy, herbs), delivery (same-day, cash on delivery), account registration, farmer onboarding, and pricing. Keep answers short (2-4 sentences), helpful, and warm. If you cannot answer or the question is out of scope, say CANNOT_HANDLE exactly. Respond in the same language the user wrote in. Current site language: ${currentLang || 'en'}.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: sysPrompt,
+        messages: cbMessages.slice(-10)
+      })
+    });
+
+    const data = await res.json();
+    cbHideTyping();
+
+    const reply = (data.content || []).map(b => b.text || '').join('').trim();
+
+    if (!reply || reply.includes('CANNOT_HANDLE') || !res.ok) {
+      failCount++;
+      const cantMsg = getCBStr('cant_handle');
+      cbAddMsg(cantMsg, 'sys');
+      cbShowCallCard();
+    } else {
+      failCount = 0;
+      cbMessages.push({ role: 'assistant', content: reply });
+      cbAddMsg(reply, 'bot');
+
+      // If fail count was accumulating, show call option proactively
+      if (failCount >= FALLBACK_THRESHOLD) {
+        cbShowCallCard();
+        failCount = 0;
+      }
+    }
+  } catch(err) {
+    cbHideTyping();
+    failCount++;
+    const cantMsg = getCBStr('cant_handle');
+    cbAddMsg(cantMsg, 'sys');
+    cbShowCallCard();
+  }
+}
+
+function cbKeydown(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); cbSend(); }
+}
+
+function initChatbot() {
+  const lang = currentLang || 'en';
+  const s = CB_STRINGS[lang] || CB_STRINGS.en;
+
+  document.body.insertAdjacentHTML('beforeend', `
+  <!-- FLOATING CHATBOT BUBBLE -->
+  <button id="chatbot-bubble" onclick="toggleChatbot()" aria-label="Open chat support">
+    🤖
+    <div id="chatbot-badge">1</div>
+  </button>
+
+  <!-- CHATBOT WINDOW -->
+  <div id="chatbot-window">
+    <div class="cb-header">
+      <div class="cb-avatar">🌿</div>
+      <div class="cb-header-text">
+        <h4>Basket Bot</h4>
+        <p>🟢 ${s.online} · Green Basket Support</p>
+      </div>
+      <button class="cb-close-btn" onclick="closeChatbot()">✕</button>
+    </div>
+    <div class="cb-messages" id="cb-messages"></div>
+    <div class="cb-quick-btns" id="cb-quick-btns"></div>
+    <div class="cb-footer">
+      <input class="cb-input" id="cb-input" placeholder="${s.placeholder}" onkeydown="cbKeydown(event)" />
+      <button class="cb-send" onclick="cbSend()">➤</button>
+    </div>
+  </div>
+  `);z
+
+  // Initial greeting
+  setTimeout(() => {
+    cbAddMsg(s.greeting, 'bot');
+    // Quick buttons
+    const qb = document.getElementById('cb-quick-btns');
+    s.quick.forEach(q => {
+      const btn = document.createElement('button');
+      btn.className = 'cb-quick';
+      btn.textContent = q;
+      btn.onclick = () => cbQuick(q);
+      qb.appendChild(btn);
+    });
+  }, 400);
+}
+
+// Chatbot language update (called from setLang in main code)
+function updateChatbotLang(lang) {
+  const s = CB_STRINGS[lang] || CB_STRINGS.en;
+  const input = document.getElementById('cb-input');
+  if (input) input.placeholder = s.placeholder;
+  const onlineEl = document.querySelector('.cb-header-text p');
+  if (onlineEl) onlineEl.textContent = `🟢 ${s.online} · Green Basket Support`;
+}
+
+window.addEventListener('load', () => {
+  initChatbot();
+});
 // ---- CHART.JS LOAD ----
 function loadChartJS(callback) {
   if (window.Chart) { callback(); return; }
@@ -1427,6 +2158,408 @@ async function adminDeleteUser(id) {
     loadAdminDashboard();
   } catch (err) { toast(err.message, 'error'); }
 }
+
+// ---- AI CHATBOT ----
+const chatbotResponses = {
+  'orders': () => `📦 Total orders: ${allAdminOrders.length} | Pending: ${allAdminOrders.filter(o=>o.orderStatus==='Pending').length} | Delivered: ${allAdminOrders.filter(o=>o.orderStatus==='Delivered').length}`,
+  'revenue': () => `💰 Total revenue: ₹${allAdminOrders.filter(o=>o.paymentStatus==='Completed').reduce((s,o)=>s+o.totalPrice,0)}`,
+  'farmers': () => `🌾 Total farmers: ${allAdminUsers.filter(u=>u.role==='farmer').length} | Names: ${allAdminUsers.filter(u=>u.role==='farmer').map(u=>u.name).join(', ')}`,
+  'customers': () => `🛒 Total customers: ${allAdminUsers.filter(u=>u.role==='customer').length}`,
+  'products': () => `🌿 Total products: ${allAdminProducts.length} | Available: ${allAdminProducts.filter(p=>p.quantity>0).length}`,
+  'delivery': () => `🚚 Delivery boys: ${allAdminUsers.filter(u=>u.role==='delivery').length}`,
+  'pending': () => `⏳ Pending orders: ${allAdminOrders.filter(o=>o.orderStatus==='Pending').length}`,
+  'cancelled': () => `❌ Cancelled orders: ${allAdminOrders.filter(o=>o.orderStatus==='Cancelled').length}`,
+  'help': () => `🤖 I can help with:\n• orders, revenue, farmers\n• customers, products, delivery\n• pending, cancelled orders`,
+};
+
+function sendChatMessage() {
+  const input = document.getElementById('chatInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+
+  const chatEl = document.getElementById('chatMessages');
+
+  // User message
+  chatEl.innerHTML += `<div style="align-self:flex-end;background:var(--green);color:white;padding:10px 16px;border-radius:16px 16px 4px 16px;max-width:80%;font-size:0.9rem">${msg}</div>`;
+
+  // Bot response
+  setTimeout(() => {
+    let response = '🤖 I can help with: orders, revenue, farmers, customers, products, delivery, pending, cancelled. Try asking about these!';
+    const lower = msg.toLowerCase();
+    for (const [key, fn] of Object.entries(chatbotResponses)) {
+      if (lower.includes(key)) { response = fn(); break; }
+    }
+    chatEl.innerHTML += `<div style="align-self:flex-start;background:white;border:2px solid var(--green-pale);padding:10px 16px;border-radius:16px 16px 16px 4px;max-width:80%;font-size:0.9rem;white-space:pre-line">🤖 ${response}</div>`;
+    chatEl.scrollTop = chatEl.scrollHeight;
+  }, 500);
+
+  chatEl.scrollTop = chatEl.scrollHeight;
+}
+const LANG = {
+  en: {
+    // NAV
+    shop: 'Shop', dashboard: 'Dashboard', logout: 'Logout',
+    login: 'Login', register: 'Register', cart: 'Cart',
+    // HOME
+    hero_title: '🌱 Farm Fresh,<br>Delivered to Your Door',
+    hero_sub: 'Buy directly from local farmers. Fresh produce, fair prices, and lightning-fast delivery.',
+    shop_now: '🛍️ Shop Now', join_farmer: '🌾 Join as Farmer',
+    feat1_title: 'Direct from Farms', feat1_desc: 'No middlemen. Buy directly from verified local farmers for the freshest produce.',
+    feat2_title: 'Fast Delivery', feat2_desc: 'Our delivery partners ensure your fresh produce reaches you the same day.',
+    feat3_title: 'Cash on Delivery', feat3_desc: 'Pay only when you receive your order. No online payment required.',
+    feat4_title: '100% Organic', feat4_desc: 'Naturally grown produce without harmful pesticides or chemicals.',
+    // PRODUCTS
+    fresh_produce: 'Fresh Produce',
+    search_placeholder: '🔍 Search fresh produce...',
+    all: 'All', vegetables: '🥦 Vegetables', fruits: '🍎 Fruits',
+    grains: '🌾 Grains', dairy: '🥛 Dairy', herbs: '🌿 Herbs',
+    add_cart: '+ Cart', local_farmer: 'Local Farmer',
+    no_products: 'No products found',
+    try_search: 'Try a different search or category',
+    loading: 'Loading fresh produce... 🌱',
+    // CART
+    your_cart: 'Your Cart 🛒',
+    cart_empty: 'Your cart is empty',
+    browse_msg: 'Browse fresh produce and add items to cart',
+    subtotal: 'Subtotal', delivery: 'Delivery', payment: 'Payment',
+    total: 'Total', cod: 'Cash on Delivery',
+    proceed_checkout: 'Proceed to Checkout →',
+    // CHECKOUT
+    checkout_title: 'Checkout 📦',
+    delivery_details: 'Delivery Details',
+    cod_badge: '💵 Payment: Cash on Delivery (COD)',
+    full_name: 'Full Name', phone: 'Phone Number',
+    delivery_address: 'Delivery Address',
+    address_placeholder: 'House no, Street, Area, City, PIN code',
+    notes_label: 'Order Notes (Optional)',
+    notes_placeholder: 'Any special instructions?',
+    place_order: '✅ Place Order (COD)',
+    order_summary: 'Order Summary',
+    auto_assign: '✅ A delivery partner will be auto-assigned to your order',
+    // AUTH
+    welcome_back: 'Welcome Back 👋',
+    signin_sub: 'Sign in to your Green Basket account',
+    email: 'Email Address', password: 'Password',
+    sign_in: 'Sign In →',
+    no_account: "Don't have an account?", reg_here: 'Register here',
+    create_account: 'Create Account 🌱',
+    join_today: 'Join Green Basket today',
+    i_am: 'I am a...',
+    customer: 'Customer', farmer: 'Farmer', delivery_role: 'Delivery',
+    phone_label: 'Phone Number', address_label: 'Address',
+    create_btn: 'Create Account →',
+    have_account: 'Already have an account?', login_here: 'Login here',
+    // DASHBOARD
+    farmer_dash: 'Farmer Dashboard 🌾',
+    farmer_sub: 'Manage your products and track orders',
+    my_products: 'My Products',
+    add_product: '+ Add Product',
+    orders_received: 'Orders Received',
+    customer_dash: 'My Orders 📦',
+    delivery_dash: 'Delivery Dashboard 🚚',
+    delivery_sub: 'Your assigned deliveries',
+    admin_dash: 'Admin Dashboard 🔐',
+    admin_sub: 'Manage the entire Green Basket platform',
+    // PRODUCT FORM
+    product_name: 'Product Name *', category: 'Category',
+    price: 'Price (₹) *', quantity: 'Quantity *', unit: 'Unit',
+    image: 'Image (Optional)', description: 'Description',
+    save_product: 'Save Product', cancel: 'Cancel',
+    add_new_product: 'Add New Product', edit_product: 'Edit Product',
+    // ORDER STATUS
+    pending: 'Pending', assigned: 'Assigned',
+    out_delivery: 'Out for Delivery', delivered: 'Delivered',
+    cancelled: 'Cancelled', completed: 'Completed',
+    // DELIVERY
+    out_for_delivery: '🚚 Out for Delivery',
+    mark_delivered: '✅ Mark Delivered',
+    not_delivered: '❌ Not Delivered',
+    cancel_order: 'Cancel Order',
+    // MISC
+    edit: 'Edit', delete: 'Delete',
+    no_orders: 'No orders yet',
+    no_products_yet: 'No products yet',
+    start_shopping: 'Start shopping for fresh produce!',
+    shop_now_btn: 'Shop Now',
+    add_first: 'Add your first product to start selling',
+    wait_assign: '🔄 Assigning delivery...',
+    no_deliveries: 'No deliveries assigned yet',
+    wait_orders: 'Wait for orders to be assigned',
+    demo_accounts: 'Demo Accounts (pw: password123)',
+  },
+ 
+  hi: {
+    shop: 'दुकान', dashboard: 'डैशबोर्ड', logout: 'लॉगआउट',
+    login: 'लॉगिन', register: 'रजिस्टर', cart: 'कार्ट',
+    hero_title: '🌱 ताज़ा खेत,<br>आपके दरवाज़े तक',
+    hero_sub: 'स्थानीय किसानों से सीधे खरीदें। ताज़ा उपज, उचित कीमतें और तेज़ डिलीवरी।',
+    shop_now: '🛍️ अभी खरीदें', join_farmer: '🌾 किसान बनें',
+    feat1_title: 'सीधे खेत से', feat1_desc: 'बिना बिचौलियों के। स्थानीय किसानों से सीधे खरीदें।',
+    feat2_title: 'तेज़ डिलीवरी', feat2_desc: 'हमारे डिलीवरी पार्टनर उसी दिन पहुंचाते हैं।',
+    feat3_title: 'कैश ऑन डिलीवरी', feat3_desc: 'ऑर्डर मिलने पर ही भुगतान करें।',
+    feat4_title: '100% जैविक', feat4_desc: 'बिना हानिकारक कीटनाशकों के प्राकृतिक उपज।',
+    fresh_produce: 'ताज़ा उपज',
+    search_placeholder: '🔍 ताज़ी उपज खोजें...',
+    all: 'सभी', vegetables: '🥦 सब्जियां', fruits: '🍎 फल',
+    grains: '🌾 अनाज', dairy: '🥛 डेयरी', herbs: '🌿 जड़ी-बूटी',
+    add_cart: '+ कार्ट', local_farmer: 'स्थानीय किसान',
+    no_products: 'कोई उत्पाद नहीं मिला',
+    try_search: 'अलग खोज या श्रेणी आज़माएं',
+    loading: 'ताज़ी उपज लोड हो रही है... 🌱',
+    your_cart: 'आपकी कार्ट 🛒',
+    cart_empty: 'आपकी कार्ट खाली है',
+    browse_msg: 'ताज़ी उपज देखें और कार्ट में जोड़ें',
+    subtotal: 'उप-कुल', delivery: 'डिलीवरी', payment: 'भुगतान',
+    total: 'कुल', cod: 'कैश ऑन डिलीवरी',
+    proceed_checkout: 'चेकआउट करें →',
+    checkout_title: 'चेकआउट 📦',
+    delivery_details: 'डिलीवरी विवरण',
+    cod_badge: '💵 भुगतान: कैश ऑन डिलीवरी (COD)',
+    full_name: 'पूरा नाम', phone: 'फ़ोन नंबर',
+    delivery_address: 'डिलीवरी पता',
+    address_placeholder: 'मकान नंबर, गली, इलाका, शहर, पिन',
+    notes_label: 'ऑर्डर नोट्स (वैकल्पिक)',
+    notes_placeholder: 'कोई विशेष निर्देश?',
+    place_order: '✅ ऑर्डर दें (COD)',
+    order_summary: 'ऑर्डर सारांश',
+    auto_assign: '✅ डिलीवरी पार्टनर अपने आप असाइन होगा',
+    welcome_back: 'वापस आपका स्वागत है 👋',
+    signin_sub: 'अपने ग्रीन बास्केट खाते में साइन इन करें',
+    email: 'ईमेल पता', password: 'पासवर्ड',
+    sign_in: 'साइन इन करें →',
+    no_account: 'खाता नहीं है?', reg_here: 'यहाँ रजिस्टर करें',
+    create_account: 'खाता बनाएं 🌱',
+    join_today: 'आज ग्रीन बास्केट से जुड़ें',
+    i_am: 'मैं हूँ...',
+    customer: 'ग्राहक', farmer: 'किसान', delivery_role: 'डिलीवरी',
+    phone_label: 'फ़ोन नंबर', address_label: 'पता',
+    create_btn: 'खाता बनाएं →',
+    have_account: 'पहले से खाता है?', login_here: 'यहाँ लॉगिन करें',
+    farmer_dash: 'किसान डैशबोर्ड 🌾',
+    farmer_sub: 'अपने उत्पाद प्रबंधित करें और ऑर्डर ट्रैक करें',
+    my_products: 'मेरे उत्पाद',
+    add_product: '+ उत्पाद जोड़ें',
+    orders_received: 'प्राप्त ऑर्डर',
+    customer_dash: 'मेरे ऑर्डर 📦',
+    delivery_dash: 'डिलीवरी डैशबोर्ड 🚚',
+    delivery_sub: 'आपकी असाइन की गई डिलीवरी',
+    admin_dash: 'एडमिन डैशबोर्ड 🔐',
+    admin_sub: 'ग्रीन बास्केट प्लेटफॉर्म प्रबंधित करें',
+    product_name: 'उत्पाद का नाम *', category: 'श्रेणी',
+    price: 'कीमत (₹) *', quantity: 'मात्रा *', unit: 'इकाई',
+    image: 'छवि (वैकल्पिक)', description: 'विवरण',
+    save_product: 'उत्पाद सहेजें', cancel: 'रद्द करें',
+    add_new_product: 'नया उत्पाद जोड़ें', edit_product: 'उत्पाद संपादित करें',
+    pending: 'लंबित', assigned: 'असाइन किया', out_delivery: 'डिलीवरी पर',
+    delivered: 'डिलीवर हो गया', cancelled: 'रद्द', completed: 'पूर्ण',
+    out_for_delivery: '🚚 डिलीवरी पर जाएं',
+    mark_delivered: '✅ डिलीवर मार्क करें',
+    not_delivered: '❌ डिलीवर नहीं हुआ',
+    cancel_order: 'ऑर्डर रद्द करें',
+    edit: 'संपादित करें', delete: 'हटाएं',
+    no_orders: 'अभी कोई ऑर्डर नहीं',
+    no_products_yet: 'अभी कोई उत्पाद नहीं',
+    start_shopping: 'ताज़ी उपज खरीदना शुरू करें!',
+    shop_now_btn: 'अभी खरीदें',
+    add_first: 'बेचना शुरू करने के लिए पहला उत्पाद जोड़ें',
+    wait_assign: '🔄 डिलीवरी असाइन हो रही है...',
+    no_deliveries: 'अभी कोई डिलीवरी नहीं',
+    wait_orders: 'ऑर्डर असाइन होने का इंतज़ार करें',
+    demo_accounts: 'डेमो अकाउंट (pw: password123)',
+  },
+ 
+  od: {
+    shop: 'ଦୋକାନ', dashboard: 'ଡ୍ୟାସବୋର୍ଡ', logout: 'ଲଗଆଉଟ',
+    login: 'ଲଗଇନ', register: 'ପଞ୍ଜୀକରଣ', cart: 'କାର୍ଟ',
+    hero_title: '🌱 ତାଜା ଖେତ,<br>ଆପଣଙ୍କ ଦ୍ୱାରରେ',
+    hero_sub: 'ସ୍ଥାନୀୟ କୃଷକଙ୍କ ଠାରୁ ସିଧା କିଣନ୍ତୁ। ତାଜା ଉତ୍ପାଦ, ଉଚିତ ମୂଲ୍ୟ ଏବଂ ଦ୍ରୁତ ଡେଲିଭରି।',
+    shop_now: '🛍️ ଏବେ କିଣନ୍ତୁ', join_farmer: '🌾 କୃଷକ ହୁଅନ୍ତୁ',
+    feat1_title: 'ସିଧା ଖେତରୁ', feat1_desc: 'କୌଣସି ମଧ୍ୟସ୍ଥି ନାହିଁ। ସ୍ଥାନୀୟ କୃଷକଙ୍କ ଠାରୁ ସିଧା କିଣନ୍ତୁ।',
+    feat2_title: 'ଦ୍ରୁତ ଡେଲିଭରି', feat2_desc: 'ଆମର ଡେଲିଭରି ପାର୍ଟନର ସେହି ଦିନ ପହଞ୍ଚାଇବେ।',
+    feat3_title: 'ଡେଲିଭରିରେ ନଗଦ', feat3_desc: 'ଅର୍ଡର ମିଳିଲେ ଟଙ୍କା ଦିଅନ୍ତୁ।',
+    feat4_title: '100% ଜୈବିକ', feat4_desc: 'ହାନିକାରକ କୀଟନାଶକ ବିନା ପ୍ରାକୃତିକ ଉତ୍ପାଦ।',
+    fresh_produce: 'ତାଜା ଉତ୍ପାଦ',
+    search_placeholder: '🔍 ତାଜା ଉତ୍ପାଦ ଖୋଜନ୍ତୁ...',
+    all: 'ସବୁ', vegetables: '🥦 ପନିପରିବା', fruits: '🍎 ଫଳ',
+    grains: '🌾 ଶସ୍ୟ', dairy: '🥛 ଡେୟାରି', herbs: '🌿 ଔଷଧ',
+    add_cart: '+ କାର୍ଟ', local_farmer: 'ସ୍ଥାନୀୟ କୃଷକ',
+    no_products: 'କୌଣସି ଉତ୍ପାଦ ମିଳିଲା ନାହିଁ',
+    try_search: 'ଅଲଗା ଖୋଜ କିମ୍ବା ବିଭାଗ ଚେଷ୍ଟା କରନ୍ତୁ',
+    loading: 'ତାଜା ଉତ୍ପାଦ ଲୋଡ ହେଉଛି... 🌱',
+    your_cart: 'ଆପଣଙ୍କ କାର୍ଟ 🛒',
+    cart_empty: 'ଆପଣଙ୍କ କାର୍ଟ ଖାଲି',
+    browse_msg: 'ତାଜା ଉତ୍ପାଦ ଦେଖନ୍ତୁ ଏବଂ କାର୍ଟରେ ଯୋଡ଼ନ୍ତୁ',
+    subtotal: 'ଉପ-ମୋଟ', delivery: 'ଡେଲିଭରି', payment: 'ପେମେଣ୍ଟ',
+    total: 'ମୋଟ', cod: 'ଡେଲିଭରିରେ ନଗଦ',
+    proceed_checkout: 'ଚେକଆଉଟ →',
+    checkout_title: 'ଚେକଆଉଟ 📦',
+    delivery_details: 'ଡେଲିଭରି ବିବରଣୀ',
+    cod_badge: '💵 ପେମେଣ୍ଟ: ଡେଲିଭରିରେ ନଗଦ (COD)',
+    full_name: 'ପୂରା ନାମ', phone: 'ଫୋନ ନମ୍ବର',
+    delivery_address: 'ଡେଲିଭରି ଠିକଣା',
+    address_placeholder: 'ଘର ନମ୍ବର, ରାସ୍ତା, ଅଞ୍ଚଳ, ସହର, PIN',
+    notes_label: 'ଅର୍ଡର ନୋଟ (ଐଚ୍ଛିକ)',
+    notes_placeholder: 'କୌଣସି ବିଶେଷ ନିର୍ଦ୍ଦେଶ?',
+    place_order: '✅ ଅର୍ଡର ଦିଅନ୍ତୁ (COD)',
+    order_summary: 'ଅର୍ଡର ସାରାଂଶ',
+    auto_assign: '✅ ଡେଲିଭରି ପାର୍ଟନର ସ୍ୱୟଂଚାଳିତ ଭାବେ ଯୋଗ ହେବ',
+    welcome_back: 'ସ୍ୱାଗତ 👋',
+    signin_sub: 'ଆପଣଙ୍କ ଗ୍ରୀନ ବାସ୍କେଟ ଆକାଉଣ୍ଟରେ ସାଇନ ଇନ କରନ୍ତୁ',
+    email: 'ଇମେଲ ଠିକଣା', password: 'ପାସୱାର୍ଡ',
+    sign_in: 'ସାଇନ ଇନ →',
+    no_account: 'ଆକାଉଣ୍ଟ ନାହିଁ?', reg_here: 'ଏଠାରେ ପଞ୍ଜୀକରଣ କରନ୍ତୁ',
+    create_account: 'ଆକାଉଣ୍ଟ ବନାନ୍ତୁ 🌱',
+    join_today: 'ଆଜି ଗ୍ରୀନ ବାସ୍କେଟ ଯୋଗ ଦିଅନ୍ତୁ',
+    i_am: 'ମୁଁ...',
+    customer: 'ଗ୍ରାହକ', farmer: 'କୃଷକ', delivery_role: 'ଡେଲିଭରି',
+    phone_label: 'ଫୋନ ନମ୍ବର', address_label: 'ଠିକଣା',
+    create_btn: 'ଆକାଉଣ୍ଟ ବନାନ୍ତୁ →',
+    have_account: 'ଆଗରୁ ଆକାଉଣ୍ଟ ଅଛି?', login_here: 'ଏଠାରେ ଲଗଇନ କରନ୍ତୁ',
+    farmer_dash: 'କୃଷକ ଡ୍ୟାସବୋର୍ଡ 🌾',
+    farmer_sub: 'ଆପଣଙ୍କ ଉତ୍ପାଦ ପରିଚାଳନା କରନ୍ତୁ',
+    my_products: 'ମୋର ଉତ୍ପାଦ',
+    add_product: '+ ଉତ୍ପାଦ ଯୋଡ଼ନ୍ତୁ',
+    orders_received: 'ପ୍ରାପ୍ତ ଅର୍ଡର',
+    customer_dash: 'ମୋର ଅର୍ଡର 📦',
+    delivery_dash: 'ଡେଲିଭରି ଡ୍ୟାସବୋର୍ଡ 🚚',
+    delivery_sub: 'ଆପଣଙ୍କ ଅର୍ପିତ ଡେଲିଭରି',
+    admin_dash: 'ଆଡମିନ ଡ୍ୟାସବୋର୍ଡ 🔐',
+    admin_sub: 'ସମ୍ପୂର୍ଣ୍ଣ ଗ୍ରୀନ ବାସ୍କେଟ ପ୍ଲାଟଫର୍ମ ପରିଚାଳନା',
+    product_name: 'ଉତ୍ପାଦ ନାମ *', category: 'ବିଭାଗ',
+    price: 'ମୂଲ୍ୟ (₹) *', quantity: 'ପରିମାଣ *', unit: 'ଏକକ',
+    image: 'ଛବି (ଐଚ୍ଛିକ)', description: 'ବିବରଣ',
+    save_product: 'ଉତ୍ପାଦ ସଞ୍ଚୟ କରନ୍ତୁ', cancel: 'ବାତିଲ',
+    add_new_product: 'ନୂଆ ଉତ୍ପାଦ ଯୋଡ଼ନ୍ତୁ', edit_product: 'ଉତ୍ପାଦ ସଂପାଦନ',
+    pending: 'ଅପେକ୍ଷିତ', assigned: 'ଅର୍ପିତ', out_delivery: 'ଡେଲିଭରିରେ',
+    delivered: 'ଡେଲିଭର ହେଲା', cancelled: 'ବାତିଲ', completed: 'ସମ୍ପୂର୍ଣ୍ଣ',
+    out_for_delivery: '🚚 ଡେଲିଭରିରେ ଯାଅ',
+    mark_delivered: '✅ ଡେଲିଭର ମାର୍କ କରନ୍ତୁ',
+    not_delivered: '❌ ଡେଲିଭର ହୋଇ ନାହିଁ',
+    cancel_order: 'ଅର୍ଡର ବାତିଲ କରନ୍ତୁ',
+    edit: 'ସଂପାଦନ', delete: 'ଡିଲିଟ',
+    no_orders: 'ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ଅର୍ଡର ନାହିଁ',
+    no_products_yet: 'ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ଉତ୍ପାଦ ନାହିଁ',
+    start_shopping: 'ତାଜା ଉତ୍ପାଦ କିଣିବା ଆରମ୍ଭ କରନ୍ତୁ!',
+    shop_now_btn: 'ଏବେ କିଣନ୍ତୁ',
+    add_first: 'ବିକ୍ରୟ ଆରମ୍ଭ କରିବାକୁ ପ୍ରଥମ ଉତ୍ପାଦ ଯୋଡ଼ନ୍ତୁ',
+    wait_assign: '🔄 ଡେଲିଭରି ଅର୍ପଣ ହେଉଛି...',
+    no_deliveries: 'ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ଡେଲିଭରି ନାହିଁ',
+    wait_orders: 'ଅର୍ଡର ଅର୍ପଣ ହେବା ପର୍ଯ୍ୟନ୍ତ ଅପେକ୍ଷା କରନ୍ତୁ',
+    demo_accounts: 'ଡେମୋ ଆକାଉଣ୍ଟ (pw: password123)',
+  }
+};
+ 
+let activeLang = localStorage.getItem('gb_lang') || 'en';
+ 
+function t(key) {
+  return LANG[activeLang][key] || LANG['en'][key] || key;
+}
+ 
+function setLang(lang) {
+  activeLang = lang;
+  localStorage.setItem('gb_lang', lang);
+  const names = { en: 'EN', hi: 'हि', od: 'ଓ' };
+  const el = document.getElementById('currentLang');
+  if (el) el.textContent = names[lang];
+  const menu = document.getElementById('lm');
+  if (menu) menu.style.display = 'none';
+  applyLanguage();
+  toast('Language changed! ' + (lang==='en'?'🇬🇧 English':lang==='hi'?'🇮🇳 हिंदी':'🏛️ ଓଡ଼ିଆ'));
+}
+ 
+function applyLanguage() {
+  // HOME PAGE
+  const heroTitle = document.querySelector('.hero h1');
+  const heroSub = document.querySelector('.hero p');
+  const heroBtns = document.querySelectorAll('.hero-btns .btn');
+  if (heroTitle) heroTitle.innerHTML = t('hero_title');
+  if (heroSub) heroSub.textContent = t('hero_sub');
+  if (heroBtns[0]) heroBtns[0].textContent = t('shop_now');
+  if (heroBtns[1]) heroBtns[1].textContent = t('join_farmer');
+ 
+  // FEATURE CARDS
+  const cards = document.querySelectorAll('.feature-card');
+  const fkeys = [['feat1_title','feat1_desc'],['feat2_title','feat2_desc'],['feat3_title','feat3_desc'],['feat4_title','feat4_desc']];
+  cards.forEach((c,i) => {
+    if (fkeys[i]) {
+      const h = c.querySelector('h3');
+      const p = c.querySelector('p');
+      if (h) h.textContent = t(fkeys[i][0]);
+      if (p) p.textContent = t(fkeys[i][1]);
+    }
+  });
+ 
+  // PRODUCTS PAGE
+  const ph = document.querySelector('#page-products .section-header h2');
+  const si = document.getElementById('searchInput');
+  if (ph) ph.textContent = t('fresh_produce');
+  if (si) si.placeholder = t('search_placeholder');
+ 
+  // FILTER BUTTONS
+  const filterBtns = document.querySelectorAll('#page-products .filter-btn');
+  const filterKeys = ['all','vegetables','fruits','grains','dairy','herbs'];
+  filterBtns.forEach((b,i) => { if(filterKeys[i]) b.textContent = t(filterKeys[i]); });
+ 
+  // CART PAGE
+  const cartTitle = document.querySelector('#page-cart h2');
+  if (cartTitle) cartTitle.textContent = t('your_cart');
+ 
+  // CHECKOUT PAGE
+  const chkTitle = document.querySelector('#page-checkout h2');
+  if (chkTitle) chkTitle.textContent = t('checkout_title');
+ 
+  // AUTH PAGE
+  const loginTitle = document.querySelector('#loginCard h2');
+  const loginSub = document.querySelector('#loginCard .auth-subtitle');
+  if (loginTitle) loginTitle.textContent = t('welcome_back');
+  if (loginSub) loginSub.textContent = t('signin_sub');
+ 
+  const loginLabels = document.querySelectorAll('#loginCard .form-group label');
+  if (loginLabels[0]) loginLabels[0].textContent = t('email');
+  if (loginLabels[1]) loginLabels[1].textContent = t('password');
+ 
+  const signInBtn = document.querySelector('#loginCard .btn-green');
+  if (signInBtn) signInBtn.textContent = t('sign_in');
+ 
+  const regTitle = document.querySelector('#registerCard h2');
+  const regSub = document.querySelector('#registerCard .auth-subtitle');
+  if (regTitle) regTitle.textContent = t('create_account');
+  if (regSub) regSub.textContent = t('join_today');
+ 
+  // DASHBOARDS
+  const fd = document.querySelector('#page-farmer .dashboard-header h2');
+  const fp = document.querySelector('#page-farmer .dashboard-header p');
+  if (fd) fd.textContent = t('farmer_dash');
+  if (fp) fp.textContent = t('farmer_sub');
+ 
+  const cd = document.querySelector('#page-customer .dashboard-header h2');
+  if (cd) cd.textContent = t('customer_dash');
+ 
+  const dd = document.querySelector('#page-delivery .dashboard-header h2');
+  const dp = document.querySelector('#page-delivery .dashboard-header p');
+  if (dd) dd.textContent = t('delivery_dash');
+  if (dp) dp.textContent = t('delivery_sub');
+ 
+  const ad = document.querySelector('#page-admin .dashboard-header h2');
+  const ap = document.querySelector('#page-admin .dashboard-header p');
+  if (ad) ad.textContent = t('admin_dash');
+  if (ap) ap.textContent = t('admin_sub');
+ 
+  // RE-RENDER CART IF OPEN
+  if (document.getElementById('page-cart').classList.contains('active')) renderCart();
+  if (document.getElementById('page-checkout').classList.contains('active')) renderCheckout();
+}
+ 
+// Apply language on page load
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    applyLanguage();
+    const names = { en: 'EN', hi: 'हि', od: 'ଓ' };
+    const el = document.getElementById('currentLang');
+    if (el) el.textContent = names[activeLang];
+  }, 300);
+});
 </script>
 </body>
 </html>
