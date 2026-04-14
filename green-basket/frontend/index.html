@@ -409,7 +409,7 @@ tr:hover td { background: #fafafa; }
 
 <!-- NAVBAR -->
 <nav>
-  <div class="logo" onclick="showPage('home')"><span>🌿</span> Green Basket</div>
+  <div class="logo" onclick="showPage('home')"><img src="logo.png" style="height:38px;width:38px;object-fit:contain;border-radius:8px"> Green Basket</div>
   <div class="nav-links" id="navLinks">
     <a onclick="showPage('products')">🛍️ <span class="label" data-i18n="nav_shop">Shop</span></a>
     <div class="lang-wrap">
@@ -776,7 +776,8 @@ tr:hover td { background: #fafafa; }
 // ============================================================
 //  STATE
 // ============================================================
-const API = 'http://localhost:5000/api';
+// const API = 'http://localhost:5000/api';/
+const API = 'https://greenbasket3333api.onrender.com/api';
 let currentUser = JSON.parse(localStorage.getItem('gb_user')) || null;
 let token = localStorage.getItem('gb_token') || null;
 let cart = JSON.parse(localStorage.getItem('gb_cart')) || [];
@@ -972,8 +973,9 @@ function addToCart(product) {
   if (existing) {
     existing.qty++;
   } else {
-    cart.push({ productId: product._id, name: product.name, price: product.price, unit: product.unit, qty: 1, farmerName: product.farmerName, category: product.category });
-  }
+  //   cart.push({ productId: product._id, name: product.name, price: product.price, unit: product.unit, qty: 1, farmerName: product.farmerName, category: product.category });
+  cart.push({ productId: product._id, name: product.name, price: product.price, unit: product.unit, qty: 1, farmerName: product.farmerName, category: product.category, image: product.image || null });
+ }
   localStorage.setItem('gb_cart', JSON.stringify(cart));
   updateCartCount();
   toast(`${product.name} added to cart! 🛒`);
@@ -996,6 +998,46 @@ function removeFromCart(productId) {
   renderCart();
 }
 
+// function renderCart() {
+//   const el = document.getElementById('cartItems');
+//   const sumEl = document.getElementById('cartSummary');
+//   if (!cart.length) {
+//     el.innerHTML = `<div class="empty-state"><div class="emoji">🛒</div><h3>Your cart is empty</h3><p>Browse fresh produce and add items to cart</p><br><button class="btn btn-green" onclick="showPage('products')">Shop Now</button></div>`;
+//     sumEl.innerHTML = '';
+//     return;
+//   }
+  
+//   el.innerHTML = cart.map(item => `
+//     <div class="cart-item">
+//     //<div class="cart-item-emoji">${getProductEmoji(item.category)}</div>
+//       <div class="cart-item-info">
+//         <div class="cart-item-name">${item.name}</div>
+//         <div class="cart-item-meta">🌾 ${item.farmerName || 'Farmer'} • ₹${item.price}/${item.unit}</div>
+//       </div>
+//       <div class="qty-controls">
+//         <button class="qty-btn" onclick="updateCartQty('${item.productId}', -1)">−</button>
+//         <span class="qty-display">${item.qty}</span>
+//         <button class="qty-btn" onclick="updateCartQty('${item.productId}', 1)">+</button>
+//       </div>
+//       <div class="cart-item-price">₹${(item.price * item.qty).toFixed(0)}</div>
+//       <button class="remove-btn" onclick="removeFromCart('${item.productId}')">🗑️</button>
+//     </div>
+//   `).join('');
+
+//   const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+//   const delivery = total > 0 ? 30 : 0;
+//   sumEl.innerHTML = `
+//     <div class="cart-summary">
+//       <h3>Order Summary</h3>
+//       <div class="summary-row"><span>Subtotal (${cart.reduce((s,i) => s+i.qty,0)} items)</span><span>₹${total.toFixed(0)}</span></div>
+//       <div class="summary-row"><span>Delivery</span><span style="color:var(--green)">₹${delivery}</span></div>
+//       <div class="summary-row"><span>Payment</span><span>💵 Cash on Delivery</span></div>
+//       <div class="summary-row total"><span>Total</span><span>₹${(total+delivery).toFixed(0)}</span></div>
+//       <button class="btn btn-green" style="width:100%;margin-top:1rem;padding:14px" onclick="proceedToCheckout()">Proceed to Checkout →</button>
+//     </div>
+//   `;
+// }
+
 function renderCart() {
   const el = document.getElementById('cartItems');
   const sumEl = document.getElementById('cartSummary');
@@ -1004,23 +1046,32 @@ function renderCart() {
     sumEl.innerHTML = '';
     return;
   }
-  
-  el.innerHTML = cart.map(item => `
-    <div class="cart-item">
-      <div class="cart-item-emoji">${getProductEmoji(item.category)}</div>
-      <div class="cart-item-info">
-        <div class="cart-item-name">${item.name}</div>
-        <div class="cart-item-meta">🌾 ${item.farmerName || 'Farmer'} • ₹${item.price}/${item.unit}</div>
+
+  el.innerHTML = cart.map(item => {
+    const imgHTML = item.image
+      ? `<img src="${API.replace('/api','')}${item.image}"
+              style="width:70px;height:70px;object-fit:cover;border-radius:12px;flex-shrink:0;border:1px solid #d8f3dc;"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+         <div style="display:none;width:70px;height:70px;align-items:center;justify-content:center;font-size:2.2rem;background:#d8f3dc;border-radius:12px;flex-shrink:0">${getProductEmoji(item.category)}</div>`
+      : `<div style="display:flex;width:70px;height:70px;align-items:center;justify-content:center;font-size:2.2rem;background:#d8f3dc;border-radius:12px;flex-shrink:0">${getProductEmoji(item.category)}</div>`;
+
+    return `
+      <div class="cart-item">
+        ${imgHTML}
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-meta">🌾 ${item.farmerName || 'Farmer'} • ₹${item.price}/${item.unit}</div>
+        </div>
+        <div class="qty-controls">
+          <button class="qty-btn" onclick="updateCartQty('${item.productId}', -1)">−</button>
+          <span class="qty-display">${item.qty}</span>
+          <button class="qty-btn" onclick="updateCartQty('${item.productId}', 1)">+</button>
+        </div>
+        <div class="cart-item-price">₹${(item.price * item.qty).toFixed(0)}</div>
+        <button class="remove-btn" onclick="removeFromCart('${item.productId}')">🗑️</button>
       </div>
-      <div class="qty-controls">
-        <button class="qty-btn" onclick="updateCartQty('${item.productId}', -1)">−</button>
-        <span class="qty-display">${item.qty}</span>
-        <button class="qty-btn" onclick="updateCartQty('${item.productId}', 1)">+</button>
-      </div>
-      <div class="cart-item-price">₹${(item.price * item.qty).toFixed(0)}</div>
-      <button class="remove-btn" onclick="removeFromCart('${item.productId}')">🗑️</button>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 
   const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
   const delivery = total > 0 ? 30 : 0;
