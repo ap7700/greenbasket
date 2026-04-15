@@ -1,5 +1,6 @@
 // ===== GREEN BASKET — MAIN APP =====
-const API = 'http://localhost:5000/api';
+// const API = 'http://localhost:5000/api';
+const API = 'https://greenbasket-mqc0.onrender.com/api';
 
 // ===== STATE =====
 let state = {

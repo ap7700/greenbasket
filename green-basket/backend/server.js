@@ -6,6 +6,16 @@ require('dotenv').config();
 
 const app = express();
 
+// app.post("/login", (req, res) => {
+//   const { email, password } = req.body;
+
+//   if (email === "admin@greenbasket.com" && password === "admin123") {
+//     return res.json({ message: "Admin login successful" });
+//   }
+
+//   res.status(401).json({ message: "Invalid email or password" });
+// });
+
 // Middleware
 app.use(cors());
 app.use(express.json());
