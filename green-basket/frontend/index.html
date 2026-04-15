@@ -484,8 +484,8 @@ tr:hover td { background: #fafafa; }
         Don't have an account? <a onclick="toggleAuth(false)">Register here</a>
       </div>
       <div style="margin-top:1.5rem;padding:1rem;background:var(--cream);border-radius:8px;font-size:0.82rem;color:var(--text-muted);">
-        <strong>Demo Accounts</strong><br>
-        farmer@greenbasket.com<br>
+        <strong>Demo Accounts (pw: password123)</strong><br>
+        admin@greenbasket.com | farmer@greenbasket.com<br>
         customer@greenbasket.com | delivery@greenbasket.com
       </div>
     </div>
@@ -777,7 +777,7 @@ tr:hover td { background: #fafafa; }
 //  STATE
 // ============================================================
 const API = 'http://localhost:5000/api';
-//const API = 'https://greenbasket3333api.onrender.com/api';
+// const API = 'https://greenbasket3333api.onrender.com/api';
 let currentUser = JSON.parse(localStorage.getItem('gb_user')) || null;
 let token = localStorage.getItem('gb_token') || null;
 let cart = JSON.parse(localStorage.getItem('gb_cart')) || [];
