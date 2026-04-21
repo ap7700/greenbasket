@@ -95,7 +95,7 @@ Simply open `frontend/index.html` in your browser.
 
 | Role     | Email                      | Password    |
 |----------|---------------------------|-------------|
-| Admin    | admin@greenbasket.com     | password123 |
+| Admin    | admin@greenbasket.com     | ************|
 | Farmer   | farmer@greenbasket.com    | password123 |
 | Customer | customer@greenbasket.com  | password123 |
 | Delivery | delivery@greenbasket.com  | password123 |
